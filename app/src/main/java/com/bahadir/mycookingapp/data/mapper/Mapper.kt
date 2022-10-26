@@ -1,7 +1,7 @@
 package com.bahadir.mycookingapp.data.mapper
 
 
-import com.bahadir.mycookingapp.data.model.Recipe
+import com.bahadir.mycookingapp.data.model.random.Recipe
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 
 fun List<Recipe>.randomFoodToUI() = map {

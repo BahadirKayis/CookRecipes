@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_margin="12dp"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="8dp"
-    android:layout_margin="12dp"
-    app:cardElevation="4dp"
-    app:contentPadding="8dp">
+    app:cardElevation="4dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="200dp"
-        android:layout_height="200dp">
+        android:layout_width="120dp"
+        android:layout_height="160dp">
 
         <ImageView
             android:id="@+id/foodImage"
-            android:layout_width="150dp"
-            android:layout_height="130dp"
+            android:layout_width="120dp"
+
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,19 +28,20 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
             android:fontFamily="@font/calistoga"
             android:gravity="center"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/foodImage"
-            app:layout_constraintVertical_bias="0.2"
-            tools:text="Elmalı turta" />
+
+            tools:text="111111111111111111111111111111111" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

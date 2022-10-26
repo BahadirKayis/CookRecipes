@@ -4,11 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/randomFoodFragment">
-
-
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.bahadir.mycookingapp.ui.menu.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" />
     <fragment
         android:id="@+id/randomFoodFragment"
-        android:name="com.bahadir.mycookingapp.ui.randomfood.RandomFoodFragment"
+        android:name="com.bahadir.mycookingapp.ui.home.RandomFoodFragment"
         android:label="fragment_random_food"
-        tools:layout="@layout/fragment_random_food" />
+        tools:layout="@layout/fragment_home" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/recipeFragment"
+        android:name="com.bahadir.mycookingapp.ui.recipe.RecipeFragment"
+        android:label="fragment_recipe"
+        tools:layout="@layout/fragment_recipe" />
+    <fragment
+        android:id="@+id/ingredientFragment"
+        android:name="com.bahadir.mycookingapp.ui.recipe.ingredient.IngredientFragment"
+        android:label="fragment_ingredient"
+        tools:layout="@layout/fragment_ingredient" />
+    <fragment
+        android:id="@+id/recipeMadeFragment"
+        android:name="com.bahadir.mycookingapp.ui.recipe.recipeismade.RecipeMadeFragment"
+        android:label="fragment_recipe_made"
+        tools:layout="@layout/fragment_recipe_made" />
 </navigation>

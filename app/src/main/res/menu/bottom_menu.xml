@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <item
+        android:id="@+id/menuFragment"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Search"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/randomFoodFragment"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/recipeFragment"
+        android:icon="@drawable/ic_baseline_star_24"
+        android:title="Notifications"
+        tools:ignore="HardcodedText" />
+
+    <!--    <item-->
+    <!--        android:id="@+id/directMessageFragment"-->
+    <!--        android:icon="@drawable/dm"-->
+    <!--        android:title="Direct Messages" />-->
+</menu>

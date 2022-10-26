@@ -2,4 +2,16 @@
     <string name="app_name">My Cooking App</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="show_more">Show more</string>
+    <string name="popular_food">Random Recipe</string>
+    <string name="soup">Soup</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="main_course">Main Course</string>
+    <string name="appetizer">Appetizer</string>
+    <string name="salad">Salad</string>
+    <string name="dessert">Dessert</string>
+    <string name="drink">Drink</string>
+    <string name="ready_in_minutes">Ready in minutes:</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="recipe">Recipe</string>
 </resources>
