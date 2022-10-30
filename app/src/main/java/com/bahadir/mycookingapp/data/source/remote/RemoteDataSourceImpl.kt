@@ -10,16 +10,16 @@ import javax.inject.Inject
 
 class RemoteDataSourceImpl @Inject constructor(private val foodService: FoodService) :
     RemoteDataSource {
-    override suspend fun getRandomFood(count: Int): RandomFood =
-        foodService.getRandomFood(API_KEY, count)
+    override suspend fun getRandomFood(size: Int): RandomFood =
+        foodService.getRandomFood(API_KEY, size)
 
     override suspend fun getCategoryItems(size: Int, category: String): RandomFood =
         foodService.getCategoryItem(API_KEY, size, category)
 
     override suspend fun getSimilarRecipe(id: Int, size: Int): List<SimilarItem> =
-        foodService.getSimilarRecipe(API_KEY, id, size)
+        foodService.getSimilarRecipe(id, API_KEY, size)
 
-    override suspend fun getRecipe(id: Int, size: Int) : Recipe =foodService.getRecipe(API_KEY, id)
+    override suspend fun getRecipe(id: Int): Recipe = foodService.getRecipe(id, API_KEY)
 
 
 }

@@ -3,6 +3,7 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/abril_fatface</item>
         <item>@font/arbutus</item>
+        <item>@font/archivo_black</item>
         <item>@font/calistoga</item>
         <item>@font/sora_bold</item>
     </array>

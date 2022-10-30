@@ -1,4 +1,4 @@
-package com.bahadir.mycookingapp.ui.home
+package com.bahadir.mycookingapp.ui.recipe
 
 
 import android.view.LayoutInflater
@@ -8,16 +8,16 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.command.titleCount
 import com.bahadir.mycookingapp.databinding.RandomFoodItemBinding
-import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
+import com.bahadir.mycookingapp.domain.model.SimilarRecipeUI
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 
-class PopularityAdapter(private val food: List<RandomFoodRecipeUI>) :
-    RecyclerView.Adapter<PopularityAdapter.RandomFoodViewHolder>() {
+class SimilarRecipeAdapter(private val food: List<SimilarRecipeUI>) :
+    RecyclerView.Adapter<SimilarRecipeAdapter.RandomFoodViewHolder>() {
     inner class RandomFoodViewHolder(private val binding: RandomFoodItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: RandomFoodRecipeUI) {
+        fun bind(item: SimilarRecipeUI) {
             with(binding) {
                 val circularProgressDrawable = CircularProgressDrawable(foodImage.context)
                 circularProgressDrawable.strokeWidth = 5f
@@ -32,7 +32,6 @@ class PopularityAdapter(private val food: List<RandomFoodRecipeUI>) :
                     .error(R.drawable.serving)
                     .into(foodImage)
                 title.text = item.title.titleCount()
-
             }
         }
 

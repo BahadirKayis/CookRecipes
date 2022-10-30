@@ -13,5 +13,5 @@ interface RemoteDataSource {
 
     suspend fun getSimilarRecipe(id: Int, size: Int): List<SimilarItem>
 
-    suspend fun getRecipe(id: Int, size: Int): Recipe
+    suspend fun getRecipe(id: Int): Recipe
 }

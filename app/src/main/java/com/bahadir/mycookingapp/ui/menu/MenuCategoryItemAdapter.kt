@@ -1,8 +1,8 @@
 package com.bahadir.mycookingapp.ui.menu
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,28 +19,44 @@ class MenuCategoryItemAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: RandomFoodRecipeUI) {
             try {
-                with(binding) {
-                    val circularProgressDrawable = CircularProgressDrawable(foodImage.context)
-                    circularProgressDrawable.strokeWidth = 5f
-                    circularProgressDrawable.centerRadius = 30f
-                    circularProgressDrawable.start()
+                with(item) {
+                    with(binding) {
 
-                    Glide.with(foodImage.context)
-                        .load(item.image)
-                        .override(500, 500) //1
-                        .diskCacheStrategy(DiskCacheStrategy.DATA) //6
-                        .placeholder(circularProgressDrawable)
-                        .error(R.drawable.ic_baseline_no_photography_24)
-                        .into(foodImage)
+                        val circularProgressDrawable = CircularProgressDrawable(foodImage.context)
+                        circularProgressDrawable.strokeWidth = 5f
+                        circularProgressDrawable.centerRadius = 30f
+                        circularProgressDrawable.start()
 
-                    title.text = item.title
-                    readyMinutes.text= "${item.readyInMinutes} mn"
+                        Glide.with(foodImage.context)
+                            .load(image)
+                            .override(500, 500) //1
+                            .diskCacheStrategy(DiskCacheStrategy.DATA) //6
+                            .placeholder(circularProgressDrawable)
+                            .error(R.drawable.ic_baseline_no_photography_24)
+                            .into(foodImage)
+
+                        title.text = item.title
+
+                        when (healthScore) {
+                            in 1..24 -> ratingBar.rating = 1f
+                            in 25..39 -> ratingBar.rating = 1.5f
+                            in 40..44 -> ratingBar.rating = 2f
+                            in 45..59 -> ratingBar.rating = 2.5f
+                            in 60..64 -> ratingBar.rating = 3f
+                            in 65..79 -> ratingBar.rating = 3.5f
+                            in 80..84 -> ratingBar.rating = 4f
+                            in 85..99 -> ratingBar.rating = 4.5f
+                            else -> ratingBar.rating = 5f
+                        }
 
 
+                    }
                 }
 
-            } catch (e: Exception) {
+                
 
+            } catch (e: Exception) {
+                Log.e("bind-Ex", e.toString())
             }
         }
     }

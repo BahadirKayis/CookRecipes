@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bahadir.mycookingapp.command.Resource
 import com.bahadir.mycookingapp.data.model.recipe.Recipe
-import com.bahadir.mycookingapp.data.model.similar.SimilarItem
+
+import com.bahadir.mycookingapp.domain.model.SimilarRecipeUI
 import com.bahadir.mycookingapp.domain.usecase.recipe.GetRecipeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,7 @@ class RecipeViewModel @Inject constructor(private val recipeUseCase: GetRecipeUs
     private val _recipe = MutableStateFlow<Resource<Recipe>>(Resource.Loading)
     val recipe = _recipe.asStateFlow()
 
-    private val _similarRecipe = MutableStateFlow<Resource<List<SimilarItem>>>(Resource.Loading)
+    private val _similarRecipe = MutableStateFlow<Resource<List<SimilarRecipeUI>>>(Resource.Loading)
     val similarRecipe = _similarRecipe.asStateFlow()
 
     fun getRecipe(id: Int) = viewModelScope.launch {

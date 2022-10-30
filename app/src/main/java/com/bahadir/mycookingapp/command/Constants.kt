@@ -9,6 +9,6 @@ object Constants {
     const val BASE_URL = "https://api.spoonacular.com/recipes/"
 
     const val RANDOM="random"
-    const val SIMILAR="similar"
-    const val INFORMATION="information"
+    const val SIMILAR="{id}/similar"
+    const val INFORMATION="{id}/information"
 }

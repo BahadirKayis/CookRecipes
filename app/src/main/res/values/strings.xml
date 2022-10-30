@@ -14,4 +14,7 @@
     <string name="ready_in_minutes">Ready in minutes:</string>
     <string name="ingredient">Ingredient</string>
     <string name="recipe">Recipe</string>
+    <string name="healthy_score">Healthy Score</string>
+    <string name="share">Share</string>
+    <string name="bookmark">Bookmark</string>
 </resources>

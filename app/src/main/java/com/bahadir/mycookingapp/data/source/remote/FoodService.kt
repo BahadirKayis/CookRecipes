@@ -26,14 +26,15 @@ interface FoodService {
 
     @GET(INFORMATION)
     suspend fun getRecipe(
-        @Query("apiKey") api: String,
         @Path("id") id: Int,
+        @Query("apiKey") api: String,
+
     ): Recipe
 
     @GET(SIMILAR)
     suspend fun getSimilarRecipe(
-        @Query("apiKey") api: String,
         @Path("id") id: Int,
+        @Query("apiKey") api: String,
         @Query("number") size: Int
     ): List<SimilarItem>
 

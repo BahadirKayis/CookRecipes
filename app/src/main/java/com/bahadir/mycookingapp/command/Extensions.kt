@@ -7,3 +7,9 @@ fun String.titleCount(): String {
         this
     }
 }
+
+fun String.idToImageUrl(imgType: String): String {
+
+
+    return "https://spoonacular.com/recipeImages/$this-556x370.$imgType"
+}

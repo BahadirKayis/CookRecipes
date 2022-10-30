@@ -2,15 +2,16 @@ package com.bahadir.mycookingapp.data.repository
 
 
 import android.app.Application
-import android.util.Log
+
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.command.Resource
 import com.bahadir.mycookingapp.data.mapper.randomFoodToUI
+import com.bahadir.mycookingapp.data.mapper.similarUI
 import com.bahadir.mycookingapp.data.model.Menu
 import com.bahadir.mycookingapp.data.model.recipe.Recipe
-import com.bahadir.mycookingapp.data.model.similar.SimilarItem
 import com.bahadir.mycookingapp.data.source.remote.RemoteDataSourceImpl
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
+import com.bahadir.mycookingapp.domain.model.SimilarRecipeUI
 import com.bahadir.mycookingapp.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -31,10 +32,10 @@ class FoodRepositoryImpl constructor(
 
             } catch (e: IOException) {
                 emit(Resource.Error(e))
-                Log.i("tag", e.toString())
+
                 null
             }
-            Log.i("tag", response.toString())
+
             response?.let { data ->
                 emit(Resource.Success(data.recipes.randomFoodToUI()))
             }
@@ -65,27 +66,43 @@ class FoodRepositoryImpl constructor(
         flow {
             emit(Resource.Loading)
             val response = try {
-                remoteDataSource.getCategoryItems(size,category)
+                remoteDataSource.getCategoryItems(size, category)
 
 
             } catch (e: IOException) {
                 emit(Resource.Error(e))
-                Log.i("tag", e.toString())
                 null
             }
-            Log.i("tag", response.toString())
-            response?.let { data ->
-                emit(Resource.Success(data.recipes.randomFoodToUI()))
+
+            response?.let {
+                emit(Resource.Success(it.recipes.randomFoodToUI()))
             }
         }
 
-    override fun getRecipe(id: Int): Flow<Resource<Recipe>> {
-        TODO("Not yet implemented")
-    }
+    override fun getRecipe(id: Int): Flow<Resource<Recipe>> =
+        flow {
+            val response = try {
+                remoteDataSource.getRecipe(id)
+            } catch (e: Throwable) {
+                emit(Resource.Error(e))
+                null
 
-    override fun getSimilar(id: Int, size: Int): Flow<Resource<List<SimilarItem>>> {
-        TODO("Not yet implemented")
-    }
+            }
+            response?.let { emit(Resource.Success(it)) }
+
+
+        }
+
+    override fun getSimilar(id: Int, size: Int): Flow<Resource<List<SimilarRecipeUI>>> =
+        flow {
+            val response = try {
+                remoteDataSource.getSimilarRecipe(id, size).similarUI()
+            } catch (e: Throwable) {
+                emit(Resource.Error(e))
+                null
+            }
+            response?.let { emit(Resource.Success(it)) }
+        }
 
 
 }

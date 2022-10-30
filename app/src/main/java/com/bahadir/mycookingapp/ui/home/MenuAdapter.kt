@@ -12,6 +12,7 @@ import com.bahadir.mycookingapp.data.model.Menu
 import com.bahadir.mycookingapp.databinding.MenuCategoryBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import java.util.*
 
 
 class MenuAdapter(private val food: List<Menu>) : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
@@ -31,17 +32,16 @@ class MenuAdapter(private val food: List<Menu>) : RecyclerView.Adapter<MenuAdapt
                     .override(500, 500) //1
                     .diskCacheStrategy(DiskCacheStrategy.DATA) //6
                     .placeholder(circularProgressDrawable)
-                    .error(R.drawable.ic_launcher_background)
+                    .error(R.drawable.serving)
                     .into(foodImage)
                 itemView.setOnClickListener {
-                 //   itemView.findNavController().navigate(R.id.action_randomFoodFragment_to_menuFragment)
-//                    itemView.findNavController().navigate(
-//                       RandomFoodFragmentDirections.actionRandomFoodFragmentToMenuFragment(
-//                            item.title.lowercase(
-//                                Locale.getDefault()
-//                            )
-//                        )
-//                    )
+                    itemView.findNavController().navigate(
+                        RandomFoodFragmentDirections.actionRandomFoodFragmentToMenuFragment(
+                            item.title.lowercase(
+                                Locale.getDefault()
+                            )
+                        )
+                    )
                 }
                 cardView.setBackgroundColor(
                     ContextCompat.getColor(
