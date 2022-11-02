@@ -2,7 +2,7 @@ package com.bahadir.mycookingapp.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bahadir.mycookingapp.command.Resource
+import com.bahadir.mycookingapp.common.Resource
 import com.bahadir.mycookingapp.data.model.Menu
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 import com.bahadir.mycookingapp.domain.usecase.home.HomeUseCase

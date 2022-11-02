@@ -3,17 +3,16 @@ package com.bahadir.mycookingapp.ui.menu
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.glideImage
 import com.bahadir.mycookingapp.databinding.MenuCategoryItemBinding
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 
-class MenuCategoryItemAdapter :
+class MenuCategoryItemAdapter(private val menuCategoryInterface: MenuCategoryInterface) :
     ListAdapter<RandomFoodRecipeUI, MenuCategoryItemAdapter.MenuViewHolder>(MenuCategoryItemCallBack()) {
     inner class MenuViewHolder(private val binding: MenuCategoryItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -21,20 +20,13 @@ class MenuCategoryItemAdapter :
             try {
                 with(item) {
                     with(binding) {
+                        itemView.animation =
+                            AnimationUtils.loadAnimation(
+                                itemView.context,
+                                R.anim.menu_category_item_scale
+                            )
 
-                        val circularProgressDrawable = CircularProgressDrawable(foodImage.context)
-                        circularProgressDrawable.strokeWidth = 5f
-                        circularProgressDrawable.centerRadius = 30f
-                        circularProgressDrawable.start()
-
-                        Glide.with(foodImage.context)
-                            .load(image)
-                            .override(500, 500) //1
-                            .diskCacheStrategy(DiskCacheStrategy.DATA) //6
-                            .placeholder(circularProgressDrawable)
-                            .error(R.drawable.ic_baseline_no_photography_24)
-                            .into(foodImage)
-
+                        foodImage.glideImage(item.image!!)
                         title.text = item.title
 
                         when (healthScore) {
@@ -49,11 +41,12 @@ class MenuCategoryItemAdapter :
                             else -> ratingBar.rating = 5f
                         }
 
-
+                        itemView.setOnClickListener {
+                            menuCategoryInterface.menuCategoryToRecipe(id)
+                        }
                     }
                 }
 
-                
 
             } catch (e: Exception) {
                 Log.e("bind-Ex", e.toString())
@@ -87,4 +80,7 @@ class MenuCategoryItemAdapter :
         }
     }
 
+    interface MenuCategoryInterface {
+        fun menuCategoryToRecipe(id: Int)
+    }
 }

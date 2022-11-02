@@ -1,7 +1,10 @@
 package com.bahadir.mycookingapp.di
 
+import com.bahadir.mycookingapp.data.source.locole.FoodDao
+import com.bahadir.mycookingapp.data.source.locole.LocalDataSourceImpl
 import com.bahadir.mycookingapp.data.source.remote.FoodService
 import com.bahadir.mycookingapp.data.source.remote.RemoteDataSourceImpl
+import com.bahadir.mycookingapp.domain.source.locale.LocalDataSource
 import com.bahadir.mycookingapp.domain.source.remote.RemoteDataSource
 import dagger.Module
 import dagger.Provides
@@ -17,4 +20,9 @@ object DataSourceModule {
     @Singleton
     fun provideRemoteDataSource(foodService: FoodService): RemoteDataSource =
         RemoteDataSourceImpl(foodService)
+
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(localService: FoodDao): LocalDataSource =
+        LocalDataSourceImpl(localService)
 }

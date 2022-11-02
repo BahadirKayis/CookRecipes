@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.RandomFoodFragment">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
+
     <TextView
         android:id="@+id/showMoreBreakfast"
         android:layout_width="wrap_content"
@@ -27,8 +36,7 @@
         android:fontFamily="@font/sora_bold"
         android:text="@string/popular_food"
         android:textColor="@color/menu_text"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,8 +61,7 @@
         android:fontFamily="@font/sora_bold"
         android:text="Menu"
         android:textColor="@color/menu_text"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recyclerPopularity"
         tools:ignore="HardcodedText" />

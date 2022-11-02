@@ -4,13 +4,11 @@ package com.bahadir.mycookingapp.ui.recipe
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.bahadir.mycookingapp.R
-import com.bahadir.mycookingapp.command.titleCount
+
+import com.bahadir.mycookingapp.common.glideImage
+import com.bahadir.mycookingapp.common.titleCount
 import com.bahadir.mycookingapp.databinding.RandomFoodItemBinding
 import com.bahadir.mycookingapp.domain.model.SimilarRecipeUI
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 
 class SimilarRecipeAdapter(private val food: List<SimilarRecipeUI>) :
@@ -19,18 +17,7 @@ class SimilarRecipeAdapter(private val food: List<SimilarRecipeUI>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SimilarRecipeUI) {
             with(binding) {
-                val circularProgressDrawable = CircularProgressDrawable(foodImage.context)
-                circularProgressDrawable.strokeWidth = 5f
-                circularProgressDrawable.centerRadius = 30f
-                circularProgressDrawable.start()
-
-                Glide.with(foodImage.context)
-                    .load(item.image)
-                    .override(500, 500) //1
-                    .diskCacheStrategy(DiskCacheStrategy.DATA) //6
-                    .placeholder(circularProgressDrawable)
-                    .error(R.drawable.serving)
-                    .into(foodImage)
+                foodImage.glideImage(item.image!!)
                 title.text = item.title.titleCount()
             }
         }

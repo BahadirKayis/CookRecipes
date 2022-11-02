@@ -1,13 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:icon="@drawable/ic_share"
-        android:title="@string/share"
-        app:showAsAction="ifRoom" />
 
     <item
-        android:icon="@drawable/ic_bookmark"
-        android:title="@string/bookmark"
+        android:id="@+id/saveIcon"
+        android:icon="@drawable/star_off"
+        android:title=""
         app:showAsAction="ifRoom" />
 </menu>

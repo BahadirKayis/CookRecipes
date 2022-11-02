@@ -28,7 +28,7 @@
                 android:background="@color/white">
 
                 <ImageView
-                    android:id="@+id/image"
+                    android:id="@+id/foodImage"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_marginStart="50dp"
@@ -38,30 +38,32 @@
                     android:src="@drawable/serving"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-
                     tools:ignore="ContentDescription" />
+
 
                 <LinearLayout
                     android:id="@+id/linear1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/image">
+                    app:layout_constraintTop_toBottomOf="@id/foodImage">
 
                     <ImageView
-
                         android:id="@+id/vegan"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
                         android:src="@drawable/vegan"
+                        android:visibility="gone"
                         tools:ignore="ContentDescription" />
+
 
                     <ImageView
                         android:id="@+id/gluten"
@@ -71,6 +73,7 @@
                         android:layout_marginStart="15dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/gluten_free"
+                        android:visibility="gone"
                         tools:ignore="ContentDescription" />
 
                     <ImageView
@@ -81,6 +84,7 @@
                         android:layout_marginStart="15dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/lactose_free"
+                        android:visibility="gone"
                         tools:ignore="ContentDescription" />
 
                     <ImageView
@@ -91,6 +95,7 @@
                         android:layout_marginStart="15dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/meal"
+                        android:visibility="gone"
                         tools:ignore="ContentDescription" />
 
                     <ImageView
@@ -101,6 +106,7 @@
                         android:layout_marginStart="15dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/popularity"
+                        android:visibility="gone"
                         tools:ignore="ContentDescription" />
 
 
@@ -112,6 +118,7 @@
                         android:layout_marginStart="15dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/healthy_heart"
+                        android:visibility="gone"
                         tools:ignore="ContentDescription" />
 
                 </LinearLayout>
@@ -121,8 +128,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+                android:theme="@style/ThemeOverlay.MaterialComponents"
                 app:layout_collapseMode="pin"
+                app:menu="@menu/recipe_detail_menu"
                 app:navigationIcon="@drawable/ic_arrow_back" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -134,9 +142,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/linear1"
-            app:tabIndicatorColor="@color/show_more"
-            app:tabSelectedTextColor="@color/show_more"
+            app:tabIndicatorColor="@color/tab_indicator"
+            app:tabSelectedTextColor="@color/tab_text"
             app:tabTextColor="@color/black"
+
             tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -153,11 +162,28 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/similarText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/similarRecipe"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
+
+        <TextView
+            android:id="@+id/similarText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/sora_bold"
+            android:text="Smiler Recipes"
+            android:textColor="@color/menu_text"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/similarRecipe"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="HardcodedText"
+            tools:layout_editor_absoluteX="5dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/similarRecipe"
@@ -167,11 +193,18 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-          />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -10,6 +10,8 @@
 
     <color name="menu_text">#FF000000</color>
     <color name="show_more">#ED9C27B0</color>
+    <color name="tab_text">#F33793DB</color>
+    <color name="tab_indicator">#F3094F87</color>
     <color name="breakfast">#96CEB4</color>
     <color name="appetizer">#ffeead</color>
     <color name="soup">#ff6f69</color>
@@ -21,5 +23,6 @@
     <color name="recycler">#91AEC6</color>
     <color name="text">#FFFFFFFF</color>
     <color name="toolbar">#74BBF1</color>
+    <color name="text_ingredient">#E4393636</color>
 
 </resources>

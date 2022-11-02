@@ -1,10 +1,9 @@
 package com.bahadir.mycookingapp.di
 
-import android.app.Application
 import com.bahadir.mycookingapp.data.repository.FoodRepositoryImpl
-import com.bahadir.mycookingapp.data.source.remote.RemoteDataSourceImpl
 import com.bahadir.mycookingapp.domain.repository.FoodRepository
-
+import com.bahadir.mycookingapp.domain.source.locale.LocalDataSource
+import com.bahadir.mycookingapp.domain.source.remote.RemoteDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,5 +16,9 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesFoodRepository(remoteDataSource:RemoteDataSourceImpl,app:Application): FoodRepository =FoodRepositoryImpl(remoteDataSource,app)
+    fun providesFoodRepository(
+        remoteDataSource: RemoteDataSource,
+        localDataSource: LocalDataSource
+
+        ): FoodRepository = FoodRepositoryImpl(remoteDataSource,localDataSource)
 }

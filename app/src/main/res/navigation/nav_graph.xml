@@ -8,26 +8,38 @@
         android:id="@+id/menuFragment"
         android:name="com.bahadir.mycookingapp.ui.menu.MenuFragment"
         android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" >
+        tools:layout="@layout/fragment_menu">
         <argument
             android:name="categoryName"
-            app:argType="string" />
+            app:argType="string"
+            />
+        <action
+            android:id="@+id/action_menuFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/randomFoodFragment"
         android:name="com.bahadir.mycookingapp.ui.home.RandomFoodFragment"
         android:label="fragment_random_food"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_randomFoodFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_randomFoodFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.bahadir.mycookingapp.ui.recipe.RecipeFragment"
         android:label="fragment_recipe"
-        tools:layout="@layout/fragment_recipe" />
+        tools:layout="@layout/fragment_recipe">
+        <argument
+            android:name="recipeId"
+            app:argType="integer"
+            app:nullable="false" />
+    </fragment>
     <fragment
         android:id="@+id/ingredientFragment"
         android:name="com.bahadir.mycookingapp.ui.recipe.ingredient.IngredientFragment"
@@ -37,10 +49,7 @@
         android:id="@+id/recipeMadeFragment"
         android:name="com.bahadir.mycookingapp.ui.recipe.recipeismade.RecipeMadeFragment"
         android:label="fragment_recipe_made"
-        tools:layout="@layout/fragment_recipe_made" >
-        <argument
-            android:name="myArg"
-            app:argType="integer"
-            android:defaultValue="1" />
+        tools:layout="@layout/fragment_recipe_made">
+
     </fragment>
 </navigation>

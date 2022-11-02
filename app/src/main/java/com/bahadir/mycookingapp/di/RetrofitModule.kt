@@ -1,7 +1,7 @@
 package com.bahadir.mycookingapp.di
 
-import com.bahadir.mycookingapp.command.Constants.API_KEY
-import com.bahadir.mycookingapp.command.Constants.BASE_URL
+import com.bahadir.mycookingapp.common.Constants.API_KEY
+import com.bahadir.mycookingapp.common.Constants.BASE_URL
 import com.bahadir.mycookingapp.data.source.remote.FoodService
 import dagger.Module
 import dagger.Provides

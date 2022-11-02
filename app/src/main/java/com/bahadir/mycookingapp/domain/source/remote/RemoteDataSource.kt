@@ -1,8 +1,9 @@
 package com.bahadir.mycookingapp.domain.source.remote
 
-import com.bahadir.mycookingapp.data.model.random.RandomFood
-import com.bahadir.mycookingapp.data.model.recipe.Recipe
-import com.bahadir.mycookingapp.data.model.similar.SimilarItem
+
+import com.bahadir.mycookingapp.data.model.remote.RandomFood
+import com.bahadir.mycookingapp.data.model.remote.Recipe
+import com.bahadir.mycookingapp.data.model.remote.SimilarItem
 
 
 interface RemoteDataSource {
