@@ -14,7 +14,9 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class RecipeViewModel @Inject constructor(private val recipeUseCase: GetRecipeUseCase) :
+class RecipeViewModel @Inject constructor(
+    private val recipeUseCase: GetRecipeUseCase,
+) :
     ViewModel() {
 
     private val _recipe = MutableStateFlow<Resource<RecipeUI>>(Resource.Loading)
@@ -22,6 +24,10 @@ class RecipeViewModel @Inject constructor(private val recipeUseCase: GetRecipeUs
 
     private val _similarRecipe = MutableStateFlow<Resource<List<SimilarRecipeUI>>>(Resource.Loading)
     val similarRecipe = _similarRecipe.asStateFlow()
+
+    private val _isSavedRecipe = MutableStateFlow<Resource<Boolean>>(Resource.Loading)
+    val isSavedRecipe = _isSavedRecipe.asStateFlow()
+
 
 
     fun getRecipe(id: Int) = viewModelScope.launch {
@@ -34,5 +40,25 @@ class RecipeViewModel @Inject constructor(private val recipeUseCase: GetRecipeUs
         recipeUseCase.getSimilarRecipe.invoke(id, size).collect {
             _similarRecipe.emit(it)
         }
+
     }
+
+    fun addRecipe(recipe: RecipeUI) = viewModelScope.launch {
+        recipeUseCase.addRecipe.invoke(recipe)
+
+        isRecipeSaved(recipe.id)
+    }
+
+    fun isRecipeSaved(recipeId: Int) = viewModelScope.launch {
+        recipeUseCase.isRecipeSaved.invoke(recipeId).collect {
+            _isSavedRecipe.emit(it)
+        }
+    }
+
+    fun deleteRecipe(recipeId: Int) = viewModelScope.launch {
+        recipeUseCase.deleteRecipe.invoke(recipeId)
+        isRecipeSaved(recipeId)
+    }
+
+
 }

@@ -9,7 +9,7 @@ import com.bahadir.mycookingapp.domain.model.RecipeUI
 
 @Database(
     entities = [RecipeUI::class],
-    version = 10,
+    version = 1,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

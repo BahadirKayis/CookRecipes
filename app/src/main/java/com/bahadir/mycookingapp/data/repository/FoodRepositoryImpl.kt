@@ -1,8 +1,10 @@
 package com.bahadir.mycookingapp.data.repository
 
 
+import android.app.Application
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.Resource
+import com.bahadir.mycookingapp.common.imageDownloadSaveFile
 import com.bahadir.mycookingapp.data.mapper.randomFoodToUI
 import com.bahadir.mycookingapp.data.mapper.recipeUI
 import com.bahadir.mycookingapp.data.mapper.similarUI
@@ -17,10 +19,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
 
-
-class FoodRepositoryImpl constructor(
+class FoodRepositoryImpl(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource
+    private val localDataSource: LocalDataSource,
+    private val app: Application
 ) : FoodRepository {
     override fun getPopularity(count: Int): Flow<Resource<List<RandomFoodRecipeUI>>> = flow {
         emit(Resource.Loading)
@@ -80,7 +82,6 @@ class FoodRepositoryImpl constructor(
         } catch (e: Throwable) {
             emit(Resource.Error(e))
             null
-
         }
         response?.let { emit(Resource.Success(it.recipeUI())) }
 
@@ -94,17 +95,52 @@ class FoodRepositoryImpl constructor(
             emit(Resource.Error(e))
             null
         }
+
         response?.let { emit(Resource.Success(it)) }
     }
 
     override suspend fun addRecipe(recipe: RecipeUI) {
-        TODO("Not yet implemented")
+        val imagePath = recipe.id.toString() + recipe.title + ".png"
+
+        recipe.imageFilePath = app.imageDownloadSaveFile(imagePath, recipe.image)
+        localDataSource.addRecipe(recipe)
+
     }
 
-    override fun isSaveRecipe(recipeId: Int): Flow<Resource<RecipeUI>> {
-        TODO("Not yet implemented")
+    override fun isRecipeSaved(recipeId: Int): Flow<Resource<Boolean>> = flow {
+        emit(Resource.Loading)
+
+        val response = try {
+            localDataSource.isSaveRecipe(recipeId)
+        } catch (e: Throwable) {
+            emit(Resource.Error(e))
+            null
+        }
+
+        response?.let {
+            emit(Resource.Success(true))
+        } ?: run { emit(Resource.Success(false)) }
+
     }
 
+    override suspend fun deleteRecipe(recipeId: Int) {
+
+        localDataSource.deleteRecipe(recipeId)
+    }
+
+    override fun allRecipe(): Flow<Resource<List<RecipeUI>>> = flow {
+        emit(Resource.Loading)
+        val response = try {
+            localDataSource.allRecipe()
+        } catch (e: Throwable) {
+            emit(Resource.Error(e))
+            null
+        }
+        response?.let { emit(Resource.Success(it)) }
+
+    }
+
+    override suspend fun deleteFavoriteRecipe(recipeId: RecipeUI)=localDataSource.deleteRecipeFavorite(recipeId)
 
 }
 

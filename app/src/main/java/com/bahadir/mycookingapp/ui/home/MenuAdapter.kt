@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.circularProgressDrawable
 import com.bahadir.mycookingapp.data.model.Menu
-import com.bahadir.mycookingapp.databinding.MenuCategoryBinding
+import com.bahadir.mycookingapp.databinding.ItemMenuCategoryBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
@@ -17,7 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 class MenuAdapter(private val food: List<Menu>, private val menuInterface: MenuAdapterInterface) :
     RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: MenuCategoryBinding) :
+    inner class ViewHolder(private val binding: ItemMenuCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Menu) {
@@ -50,7 +50,7 @@ class MenuAdapter(private val food: List<Menu>, private val menuInterface: MenuA
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            MenuCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemMenuCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

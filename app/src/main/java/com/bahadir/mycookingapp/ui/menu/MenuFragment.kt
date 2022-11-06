@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.Resource
 import com.bahadir.mycookingapp.common.gone
+import com.bahadir.mycookingapp.common.viewBinding
 import com.bahadir.mycookingapp.common.visible
 import com.bahadir.mycookingapp.databinding.FragmentMenuBinding
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+
+
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 

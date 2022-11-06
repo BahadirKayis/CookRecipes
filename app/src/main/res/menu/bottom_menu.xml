@@ -14,7 +14,7 @@
         android:title="Home"
         tools:ignore="HardcodedText" />
     <item
-        android:id="@+id/save"
+        android:id="@+id/favoriteFragment"
         android:icon="@drawable/ic_baseline_star_24"
         android:title="Notifications"
         tools:ignore="HardcodedText" />

@@ -55,7 +55,8 @@ fun Recipe.recipeUI() = RecipeUI(
     healthScore = healthScore,
     image = image,
     sourceUrl = sourceUrl,
-    instructions = instructions
+    instructions = instructions,
+    imageFilePath = ""
 )
 
 

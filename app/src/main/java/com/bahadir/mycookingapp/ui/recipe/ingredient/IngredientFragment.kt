@@ -1,5 +1,7 @@
 package com.bahadir.mycookingapp.ui.recipe.ingredient
 
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -14,9 +16,19 @@ class IngredientFragment : Fragment(R.layout.fragment_ingredient) {
     private val binding by viewBinding(FragmentIngredientBinding::bind)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val list = checkNotNull(arguments?.getParcelable<RecipeUI>("ingredient"))
 
-        val adapter = IngredientAdapter(list.extendedIngredients)
+        val ingredients = if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkNotNull(
+                arguments?.getParcelable(
+                    "ingredient",
+                    RecipeUI::class.java
+                )
+            ).extendedIngredients
+        } else {
+            checkNotNull(arguments?.getParcelable<RecipeUI>("ingredient")).extendedIngredients
+        }
+
+        val adapter = IngredientAdapter(ingredients)
         binding.ingredientRecycler.adapter = adapter
     }
 

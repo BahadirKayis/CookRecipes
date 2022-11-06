@@ -3,13 +3,13 @@ package com.bahadir.mycookingapp.ui.recipe.ingredient
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bahadir.mycookingapp.databinding.RecipeViewpagerItemBinding
+import com.bahadir.mycookingapp.databinding.ItemRecipeViewpagerBinding
 import com.bahadir.mycookingapp.domain.model.IngredientUI
 
 class IngredientAdapter(private val ingredient: List<IngredientUI>) :
     RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: RecipeViewpagerItemBinding) :
+    inner class ViewHolder(private val binding: ItemRecipeViewpagerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: IngredientUI) {
@@ -24,7 +24,7 @@ class IngredientAdapter(private val ingredient: List<IngredientUI>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            RecipeViewpagerItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemRecipeViewpagerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

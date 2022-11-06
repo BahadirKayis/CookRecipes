@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.glideImage
-import com.bahadir.mycookingapp.databinding.MenuCategoryItemBinding
+import com.bahadir.mycookingapp.databinding.ItemMenuCategoryListBinding
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 
+//TODO PAGGİNG3 EKLENECEK
 class MenuCategoryItemAdapter(private val menuCategoryInterface: MenuCategoryInterface) :
-    ListAdapter<RandomFoodRecipeUI, MenuCategoryItemAdapter.MenuViewHolder>(MenuCategoryItemCallBack()) {
-    inner class MenuViewHolder(private val binding: MenuCategoryItemBinding) :
+    ListAdapter<RandomFoodRecipeUI, MenuCategoryItemAdapter.ViewHolder>(MenuCategoryItemCallBack()) {
+
+    inner class ViewHolder(private val binding: ItemMenuCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: RandomFoodRecipeUI) {
             try {
@@ -54,13 +56,13 @@ class MenuCategoryItemAdapter(private val menuCategoryInterface: MenuCategoryInt
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            MenuCategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MenuViewHolder(binding)
+            ItemMenuCategoryListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
 
     }

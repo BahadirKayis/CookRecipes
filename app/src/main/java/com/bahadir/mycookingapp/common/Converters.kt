@@ -16,9 +16,8 @@ class Converters {
     }
 
     @TypeConverter
-
     fun toIngredient(item: String): List<IngredientUI> {
-        val objectType = object : TypeToken<IngredientUI>() {}.type
+        val objectType = object : TypeToken<List<IngredientUI>>() {}.type
         return Gson().fromJson(item, objectType)
     }
 
@@ -29,7 +28,7 @@ class Converters {
 
     @TypeConverter
     fun toStep(item: String): List<StepUI> {
-        val objectType = object : TypeToken<StepUI>() {}.type
+        val objectType = object : TypeToken<List<StepUI>>() {}.type
         return Gson().fromJson(item, objectType)
     }
 

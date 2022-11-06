@@ -10,35 +10,25 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.*
-
 import com.bahadir.mycookingapp.databinding.FragmentRecipeBinding
 import com.bahadir.mycookingapp.domain.model.RecipeUI
 import com.google.android.material.tabs.TabLayoutMediator
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 
-//TODO is liked the recipe save to room
-//Todo not working
 @AndroidEntryPoint
-class RecipeFragment : Fragment(R.layout.fragment_recipe) {
+class RecipeFragment : Fragment(R.layout.fragment_recipe),
+    SimilarRecipeAdapter.SimilarRecipeAdapterInterface {
     private val binding by viewBinding(FragmentRecipeBinding::bind)
     private val viewModel: RecipeViewModel by viewModels()
     private val args: RecipeFragmentArgs by navArgs()
+    private var isTheRecipeSaved: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.isRecipeSaved(args.recipeId)
         cloudRequest()
         collectData()
-
-        isSave()
-    }
-
-
-    private fun isSave() {
-        with(binding) {
-
-        }
     }
 
     private fun cloudRequest() {
@@ -59,6 +49,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                         }
                         is Resource.Success -> {
                             binding.animLoading.gone()
+                            Log.i("recs", response.data.toString())
                             loadRecipe(response.data)
                         }
                         is Resource.Error -> {
@@ -76,7 +67,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                     when (response) {
                         is Resource.Loading -> {}
                         is Resource.Success -> {
-                            val adapter = SimilarRecipeAdapter(response.data)
+                            val adapter = SimilarRecipeAdapter(response.data, this@RecipeFragment)
                             binding.similarRecipe.adapter = adapter
                         }
                         is Resource.Error -> Log.e(
@@ -86,12 +77,42 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                     }
                 }
             }
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                viewModel.isSavedRecipe.collect { response ->
+                    when (response) {
+
+                        is Resource.Loading -> {
+                            Log.e("collectDataİs-", "loading")
+                        }
+
+                        is Resource.Success -> {
+                            Log.e("collectDataİs-", response.data.toString())
+                            if (response.data) {
+                                isTheRecipeSaved = true
+                                binding.toolbar.menu.getItem(0)
+                                    .setIcon(R.drawable.star_on)
+                            } else {
+                                isTheRecipeSaved = false
+                                binding.toolbar.menu.getItem(0)
+                                    .setIcon(R.drawable.star_off)
+                            }
+                        }
+                        is Resource.Error -> {
+                            Log.e("collectDataİs-", "error")
+                        }
+                    }
+
+
+                }
+            }
+
+
         }
     }
 
     private fun loadRecipe(recipe: RecipeUI) {
         with(recipe) {
-            toolbar(title)
+            toolbar(title, this)
             foodImage(image)
             initializeView(
                 recipe
@@ -112,9 +133,10 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
     private fun foodImage(url: String) {
         binding.foodImage.glideImage(url)
+
     }
 
-    private fun toolbar(foodName: String) {
+    private fun toolbar(foodName: String, recipe: RecipeUI) {
         with(binding) {
 
             toolbar.title = foodName
@@ -124,7 +146,19 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             toolbar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.saveIcon -> {
-                        binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_on)
+                        isTheRecipeSaved = when (isTheRecipeSaved) {
+                            true -> {
+                                viewModel.deleteRecipe(args.recipeId)
+                                binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_off)
+                                false
+                            }
+                            false -> {
+                                viewModel.addRecipe(recipe)
+                                binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_on)
+                                true
+                            }
+                        }
+
                         true
                     }
                     else -> false
@@ -148,6 +182,10 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             }.attach()
 
         }
+    }
+
+    override fun similarRecipeClick(recipeId: Int) {
+        findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentSelf(recipeId))
     }
 
 }

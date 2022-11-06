@@ -17,6 +17,11 @@ interface FoodRepository {
     fun getRecipe(id: Int): Flow<Resource<RecipeUI>>
     fun getSimilar(id: Int, size: Int): Flow<Resource<List<SimilarRecipeUI>>>
     suspend fun addRecipe(recipe: RecipeUI)
-    fun isSaveRecipe(recipeId: Int): Flow<Resource<RecipeUI>>
+    fun isRecipeSaved(recipeId: Int): Flow<Resource<Boolean>>
+    suspend fun deleteRecipe(recipeId: Int)
+
+    fun allRecipe(): Flow<Resource<List<RecipeUI>>>
+    suspend fun deleteFavoriteRecipe(recipeId: RecipeUI)
+
 
 }

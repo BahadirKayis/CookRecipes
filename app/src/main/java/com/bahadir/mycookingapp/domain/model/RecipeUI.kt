@@ -10,19 +10,36 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "recipe")
 data class RecipeUI(
     @PrimaryKey(autoGenerate = false)
+
     val id: Int,
+
     val title: String,
+
     val dairyFree: Boolean,
+
     val glutenFree: Boolean,
+
     val aggregateLikes: Int,
+
     val veryHealthy: Boolean,
+
     val vegetarian: Boolean,
+
     val veryPopular: Boolean,
+
     val cheap: Boolean,
+
     val extendedIngredients: List<IngredientUI>,
-    val step: List<StepUI>,
+
+    val step: List<StepUI>?,
+
     val healthScore: Int,
+
     val image: String,
+
     val sourceUrl: String,
+
     val instructions: String,
+
+    var imageFilePath: String?,
 ) : Parcelable

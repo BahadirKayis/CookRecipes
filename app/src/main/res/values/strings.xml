@@ -17,4 +17,5 @@
     <string name="healthy_score">Healthy Score</string>
     <string name="share">Share</string>
     <string name="bookmark">Bookmark</string>
+    <string name="delete">Delete</string>
 </resources>

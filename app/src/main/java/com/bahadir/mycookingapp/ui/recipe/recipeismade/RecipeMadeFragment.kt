@@ -1,25 +1,44 @@
 package com.bahadir.mycookingapp.ui.recipe.recipeismade
 
 
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.gone
+import com.bahadir.mycookingapp.common.viewBinding
+import com.bahadir.mycookingapp.common.visible
 import com.bahadir.mycookingapp.databinding.FragmentRecipeMadeBinding
 import com.bahadir.mycookingapp.domain.model.RecipeUI
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 
 
 class RecipeMadeFragment : Fragment(R.layout.fragment_recipe_made) {
     private val binding by viewBinding(FragmentRecipeMadeBinding::bind)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val list = checkNotNull(arguments?.getParcelable<RecipeUI>("recipe"))
-        Log.e("list", (list.step.toString()))
-        if (list.step.isNotEmpty()) {
-            val adapter = StepAdapter(list.step)
+        val step = if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkNotNull(
+                arguments?.getParcelable(
+                    "recipe",
+                    RecipeUI::class.java
+                )
+            )
+        } else {
+            checkNotNull(arguments?.getParcelable<RecipeUI>("recipe"))
+        }
+
+        if (step.step != null) {
+
+            val adapter = StepAdapter(step.step)
             binding.stepRecycler.adapter = adapter
+        } else {
+            binding.stepRecycler.gone()
+            binding.image.gone()
+            binding.instructions.visible()
+            binding.instructions.text =step.instructions
+
         }
 
     }
