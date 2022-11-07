@@ -26,6 +26,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.isRecipeSaved(args.recipeId)
         cloudRequest()
         collectData()

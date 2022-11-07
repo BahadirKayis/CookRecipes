@@ -44,7 +44,7 @@ class FavoriteViewModel @Inject constructor(private val favoriteUseCase: Favorit
     fun deleteRecipe(recipe: RecipeUI) = viewModelScope.launch {
         favoriteUseCase.deleteRecipe.invoke(recipe)
         tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(recipe))
-      //  getAllRecipe()
+        getAllRecipe()
 
     }
 

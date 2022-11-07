@@ -3,7 +3,6 @@ package com.bahadir.mycookingapp.ui.activity
 import android.os.Bundle
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.viewBinding

@@ -2,6 +2,9 @@ package com.bahadir.mycookingapp.data.repository
 
 
 import android.app.Application
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.Resource
 import com.bahadir.mycookingapp.common.imageDownloadSaveFile
@@ -15,6 +18,7 @@ import com.bahadir.mycookingapp.domain.model.SimilarRecipeUI
 import com.bahadir.mycookingapp.domain.repository.FoodRepository
 import com.bahadir.mycookingapp.domain.source.locale.LocalDataSource
 import com.bahadir.mycookingapp.domain.source.remote.RemoteDataSource
+import com.bahadir.mycookingapp.ui.menu.Paging
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
@@ -48,8 +52,8 @@ class FoodRepositoryImpl(
             Menu(2, R.drawable.soup, "Soup", R.color.soup),
             Menu(3, R.drawable.maincourse, "Main Course", R.color.main_course),
             Menu(4, R.drawable.salad, "Salad", R.color.salad),
-            Menu(5, R.drawable.bakery, "Bakery", R.color.bakery),
-            Menu(6, R.drawable.juicebottle, "Juice", R.color.juice),
+            Menu(5, R.drawable.bakery, "Bread", R.color.bakery),
+            Menu(6, R.drawable.juicebottle, "Drink", R.color.juice),
             Menu(7, R.drawable.sweets, "Sweets", R.color.sweets),
 
 
@@ -60,21 +64,21 @@ class FoodRepositoryImpl(
 
     override fun getMenuCategory(
         size: Int, category: String
-    ): Flow<Resource<List<RandomFoodRecipeUI>>> = flow {
-        emit(Resource.Loading)
-        val response = try {
-            remoteDataSource.getCategoryItems(size, category)
+    ): Flow<PagingData<RandomFoodRecipeUI>> {
+
+        return Pager(
+            config = PagingConfig(size, maxSize = 100, enablePlaceholders = false),
+            pagingSourceFactory = {
+                Paging(
+                    remoteDataSource = remoteDataSource,
+                    size,
+                    category
+                )
+            }).flow
 
 
-        } catch (e: IOException) {
-            emit(Resource.Error(e))
-            null
-        }
-
-        response?.let {
-            emit(Resource.Success(it.recipes.randomFoodToUI()))
-        }
     }
+
 
     override fun getRecipe(id: Int): Flow<Resource<RecipeUI>> = flow {
         val response = try {
@@ -140,7 +144,8 @@ class FoodRepositoryImpl(
 
     }
 
-    override suspend fun deleteFavoriteRecipe(recipeId: RecipeUI)=localDataSource.deleteRecipeFavorite(recipeId)
+    override suspend fun deleteFavoriteRecipe(recipeId: RecipeUI) =
+        localDataSource.deleteRecipeFavorite(recipeId)
 
 }
 

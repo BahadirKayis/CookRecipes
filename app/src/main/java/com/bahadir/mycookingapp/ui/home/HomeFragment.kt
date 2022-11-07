@@ -20,7 +20,7 @@ import com.bahadir.mycookingapp.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RandomFoodFragment : Fragment(R.layout.fragment_home), MenuAdapter.MenuAdapterInterface,
+class HomeFragment : Fragment(R.layout.fragment_home), MenuAdapter.MenuAdapterInterface,
     RandomAdapter.RandomAdapterInterface {
     private val binding by viewBinding(FragmentHomeBinding::bind)
     private val viewModel: HomeViewModel by viewModels()
@@ -37,7 +37,7 @@ class RandomFoodFragment : Fragment(R.layout.fragment_home), MenuAdapter.MenuAda
 
             showMoreBreakfast.setOnClickListener {
                 findNavController().navigate(
-                    RandomFoodFragmentDirections.actionRandomFoodFragmentToMenuFragment(
+                    HomeFragmentDirections.actionRandomFoodFragmentToMenuFragment(
                         ""
                     )
                 )
@@ -52,7 +52,7 @@ class RandomFoodFragment : Fragment(R.layout.fragment_home), MenuAdapter.MenuAda
                     when (response) {
                         is Resource.Loading -> binding.animLoading.visible()
                         is Resource.Success -> {
-                            val adapter = RandomAdapter(response.data, this@RandomFoodFragment)
+                            val adapter = RandomAdapter(response.data, this@HomeFragment)
                             binding.recyclerPopularity.adapter = adapter
                             binding.animLoading.gone()
                         }
@@ -71,7 +71,7 @@ class RandomFoodFragment : Fragment(R.layout.fragment_home), MenuAdapter.MenuAda
                         is Resource.Loading -> {}
                         is Resource.Success -> {
 
-                            val adapter = MenuAdapter(response.data, this@RandomFoodFragment)
+                            val adapter = MenuAdapter(response.data, this@HomeFragment)
                             binding.recyclerMenu.adapter = adapter
                         }
                         is Resource.Error -> {
@@ -88,13 +88,13 @@ class RandomFoodFragment : Fragment(R.layout.fragment_home), MenuAdapter.MenuAda
 
     override fun menuToCategories(category: String) {
         findNavController().navigate(
-            RandomFoodFragmentDirections.actionRandomFoodFragmentToMenuFragment(category)
+            HomeFragmentDirections.actionRandomFoodFragmentToMenuFragment(category)
         )
     }
 
     override fun randomToRecipe(id: Int) {
         findNavController().navigate(
-            RandomFoodFragmentDirections.actionRandomFoodFragmentToRecipeFragment(
+            HomeFragmentDirections.actionRandomFoodFragmentToRecipeFragment(
                 id
             )
         )

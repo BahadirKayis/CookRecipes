@@ -1,12 +1,11 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
-
+    id 'kotlin-kapt'
 }
 
 android {
@@ -108,6 +107,11 @@ dependencies {
     //ImageLoader
     implementation "io.coil-kt:coil:2.2.2"
 
+    //Paging
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
 
-    implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.4'
+    // OkHttp interceptor
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+
+
 }

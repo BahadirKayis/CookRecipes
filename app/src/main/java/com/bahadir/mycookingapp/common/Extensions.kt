@@ -52,7 +52,7 @@ fun View.visibleOrGone(boolean: Boolean) {
 
 }
 
-fun View.snackBar( text: String, duration: Int) {
+fun View.snackBar(text: String, duration: Int) {
     Snackbar.make(this, text, duration).show()
 }
 

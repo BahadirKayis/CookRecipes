@@ -35,9 +35,10 @@ class RecipeMadeFragment : Fragment(R.layout.fragment_recipe_made) {
             binding.stepRecycler.adapter = adapter
         } else {
             binding.stepRecycler.gone()
-            binding.image.gone()
+            binding.image.visible()
+
             binding.instructions.visible()
-            binding.instructions.text =step.instructions
+            binding.instructions.text = step.instructions
 
         }
 

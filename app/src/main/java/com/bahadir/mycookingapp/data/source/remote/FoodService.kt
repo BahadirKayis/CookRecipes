@@ -14,13 +14,11 @@ import retrofit2.http.Query
 interface FoodService {
     @GET(RANDOM)
     suspend fun getRandomFood(
-        @Query("apiKey") api: String,
         @Query("number") count: Int
     ): RandomFood
 
     @GET(RANDOM)
     suspend fun getCategoryItem(
-        @Query("apiKey") api: String,
         @Query("number") count: Int,
         @Query("tags") category: String
     ): RandomFood
@@ -28,14 +26,11 @@ interface FoodService {
     @GET(INFORMATION)
     suspend fun getRecipe(
         @Path("id") id: Int,
-        @Query("apiKey") api: String,
-
-        ): Recipe
+    ): Recipe
 
     @GET(SIMILAR)
     suspend fun getSimilarRecipe(
         @Path("id") id: Int,
-        @Query("apiKey") api: String,
         @Query("number") size: Int
     ): List<SimilarItem>
 

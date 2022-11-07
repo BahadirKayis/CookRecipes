@@ -1,7 +1,7 @@
 package com.bahadir.mycookingapp.ui.menu
 
+
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -10,13 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bahadir.mycookingapp.R
-import com.bahadir.mycookingapp.common.Resource
-import com.bahadir.mycookingapp.common.gone
 import com.bahadir.mycookingapp.common.viewBinding
-import com.bahadir.mycookingapp.common.visible
 import com.bahadir.mycookingapp.databinding.FragmentMenuBinding
-
-
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -31,23 +26,14 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val categoryName = args.categoryName
         binding()
-        collectData()
-        getCategoryItem(categoryName)
-
+        collectData(categoryName)
         categoryName.also {
             if (it == "") {
                 "Random Recipe".also { its -> binding.categoryName.text = its }
             } else {
                 "$it Recipe".also { its -> binding.categoryName.text = its }
             }
-
-
         }
-    }
-
-    private fun getCategoryItem(categoryName: String) {
-        viewModel.getMenuCategoryItem(20, categoryName.lowercase(Locale.getDefault()))
-
     }
 
     private fun binding() {
@@ -58,23 +44,19 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
     }
 
 
-    private fun collectData() {
+    private fun collectData(categoryName: String) {
         with(viewModel) {
+
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                menuCategoryItem.collect { response ->
-                    when (response) {
-                        is Resource.Loading -> binding.animLoading.visible()
-                        is Resource.Success -> {
-                            binding.animLoading.gone()
-                            adapter.submitList(response.data)
-                        }
-                        is Resource.Error -> {
-                            binding.animLoading.gone()
-                            Log.e("throwable", response.throwable.toString())
-                        }
-                    }
+                getMenuCategoryItem(
+                    5,
+                    categoryName.lowercase(Locale.getDefault())
+                ).collect { pagingData ->
+                    adapter.submitData(pagingData)
+
                 }
             }
+
         }
 
     }

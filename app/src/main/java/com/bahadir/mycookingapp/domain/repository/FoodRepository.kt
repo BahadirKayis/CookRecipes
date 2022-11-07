@@ -1,5 +1,6 @@
 package com.bahadir.mycookingapp.domain.repository
 
+import androidx.paging.PagingData
 import com.bahadir.mycookingapp.common.Resource
 import com.bahadir.mycookingapp.data.model.Menu
 
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 interface FoodRepository {
     fun getPopularity(count: Int): Flow<Resource<List<RandomFoodRecipeUI>>>
     fun getMenu(): Flow<Resource<List<Menu>>>
-    fun getMenuCategory(size: Int, category: String): Flow<Resource<List<RandomFoodRecipeUI>>>
+    fun getMenuCategory(size: Int, category: String): Flow<PagingData<RandomFoodRecipeUI>>
     fun getRecipe(id: Int): Flow<Resource<RecipeUI>>
     fun getSimilar(id: Int, size: Int): Flow<Resource<List<SimilarRecipeUI>>>
     suspend fun addRecipe(recipe: RecipeUI)

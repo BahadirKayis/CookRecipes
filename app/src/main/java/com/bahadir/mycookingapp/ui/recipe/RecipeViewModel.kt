@@ -29,7 +29,6 @@ class RecipeViewModel @Inject constructor(
     val isSavedRecipe = _isSavedRecipe.asStateFlow()
 
 
-
     fun getRecipe(id: Int) = viewModelScope.launch {
         recipeUseCase.getRecipe.invoke(id).collect {
             _recipe.emit(it)

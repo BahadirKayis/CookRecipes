@@ -24,6 +24,7 @@ object RetrofitModule {
     fun provideFoodService(): FoodService = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
+        .client(getOkHttpClient(getInterceptor()))
         .build()
         .create(FoodService::class.java)
 
@@ -33,9 +34,10 @@ object RetrofitModule {
     fun getInterceptor(): Interceptor {
         return Interceptor {
             val request = it.request().newBuilder()
-            request.addHeader("apiKey", API_KEY)
-            val actualRequest = request.build()
-            it.proceed(actualRequest)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("x-api-key", API_KEY).build()
+
+            it.proceed(request)
         }
     }
 
@@ -49,7 +51,6 @@ object RetrofitModule {
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(50, TimeUnit.SECONDS)
-
         return httpBuilder
             .protocols(mutableListOf(Protocol.HTTP_1_1))
             .build()

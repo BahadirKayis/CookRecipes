@@ -4,17 +4,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.glideImage
 import com.bahadir.mycookingapp.databinding.ItemMenuCategoryListBinding
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 
-//TODO PAGGİNG3 EKLENECEK
+
 class MenuCategoryItemAdapter(private val menuCategoryInterface: MenuCategoryInterface) :
-    ListAdapter<RandomFoodRecipeUI, MenuCategoryItemAdapter.ViewHolder>(MenuCategoryItemCallBack()) {
+    PagingDataAdapter<RandomFoodRecipeUI, MenuCategoryItemAdapter.ViewHolder>(diffCallBack) {
 
     inner class ViewHolder(private val binding: ItemMenuCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -63,22 +63,24 @@ class MenuCategoryItemAdapter(private val menuCategoryInterface: MenuCategoryInt
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
 
     }
 
 
-    class MenuCategoryItemCallBack : DiffUtil.ItemCallback<RandomFoodRecipeUI>() {
-        override fun areItemsTheSame(
-            oldItem: RandomFoodRecipeUI, newItem: RandomFoodRecipeUI
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
+    companion object {
+        val diffCallBack = object : DiffUtil.ItemCallback<RandomFoodRecipeUI>() {
+            override fun areItemsTheSame(
+                oldItem: RandomFoodRecipeUI, newItem: RandomFoodRecipeUI
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-        override fun areContentsTheSame(
-            oldItem: RandomFoodRecipeUI, newItem: RandomFoodRecipeUI
-        ): Boolean {
-            return oldItem == newItem
+            override fun areContentsTheSame(
+                oldItem: RandomFoodRecipeUI, newItem: RandomFoodRecipeUI
+            ): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 
