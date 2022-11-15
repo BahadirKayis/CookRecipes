@@ -24,7 +24,7 @@ class RandomAdapter(
 
 
                     foodImage.glideImage(image)
-                    binding.title.text = title.titleCount()
+                    binding.title.text = title.titleCount(20)
 
                     itemView.setOnClickListener {
                         Log.i("randomAdapter", id.toString())

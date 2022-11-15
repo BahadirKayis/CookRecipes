@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.core.content.FileProvider
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -21,9 +22,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 
-fun String.titleCount(): String {
-    return if (this.length > 20) {
-        this.substring(0, 20) + "..."
+fun String.titleCount(count: Int): String {
+    return if (this.length > count) {
+        this.substring(0, count) + "..."
     } else {
         this
     }
@@ -51,6 +52,12 @@ fun View.visibleOrGone(boolean: Boolean) {
     }
 
 }
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
 
 fun View.snackBar(text: String, duration: Int) {
     Snackbar.make(this, text, duration).show()

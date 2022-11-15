@@ -25,6 +25,7 @@ class IngredientFragment : Fragment(R.layout.fragment_ingredient) {
                 )
             ).extendedIngredients
         } else {
+            @Suppress("DEPRECATION")
             checkNotNull(arguments?.getParcelable<RecipeUI>("ingredient")).extendedIngredients
         }
 

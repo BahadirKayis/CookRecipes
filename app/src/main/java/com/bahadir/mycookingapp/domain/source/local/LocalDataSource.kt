@@ -1,4 +1,4 @@
-package com.bahadir.mycookingapp.domain.source.locale
+package com.bahadir.mycookingapp.domain.source.local
 
 import com.bahadir.mycookingapp.domain.model.RecipeUI
 

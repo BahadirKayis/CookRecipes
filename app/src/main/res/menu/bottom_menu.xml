@@ -4,7 +4,7 @@
 
 
     <item
-        android:id="@+id/searchFragmentBottomSheet"
+        android:id="@+id/searchFragment"
         android:icon="@drawable/ic_baseline_search_24"
         android:title="Search"
         tools:ignore="HardcodedText" />

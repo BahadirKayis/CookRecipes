@@ -3,6 +3,7 @@ package com.bahadir.mycookingapp.data.source.remote
 import com.bahadir.mycookingapp.data.model.remote.RandomFood
 import com.bahadir.mycookingapp.data.model.remote.Recipe
 import com.bahadir.mycookingapp.data.model.remote.SimilarItem
+import com.bahadir.mycookingapp.data.model.search.SearchResponse
 import com.bahadir.mycookingapp.domain.source.remote.RemoteDataSource
 
 
@@ -18,6 +19,14 @@ class RemoteDataSourceImpl(private val foodService: FoodService) :
         foodService.getSimilarRecipe(id, size)
 
     override suspend fun getRecipe(id: Int): Recipe = foodService.getRecipe(id)
+    override suspend fun searchRecipe(
+        query: String,
+        diets: String,
+        cuisine: String,
+        intolerance: String,
+        type: String
+    ): SearchResponse =
+        foodService.searchRecipe(query, 50, diets, cuisine, intolerance, type)
 
 
 }

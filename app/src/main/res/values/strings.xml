@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">My Cooking App</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="show_more">Show more</string>
     <string name="popular_food">Random Recipe</string>
@@ -18,4 +17,12 @@
     <string name="share">Share</string>
     <string name="bookmark">Bookmark</string>
     <string name="delete">Delete</string>
+    <string name="diets">Diet</string>
+    <string name="country">Country</string>
+    <string name="intolerances">Intolerances</string>
+    <string name="mealType">Meal Type</string>
+    <string name="apply">Apply</string>
+    <string name="clear">Clear</string>
+    <string name="filter">Filter</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -6,6 +6,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="gray">#A5A0A0</color>
     <color name="white">#FFFFFFFF</color>
 
     <color name="menu_text">#FF000000</color>
@@ -35,6 +36,11 @@
     <color name="swipeBehindBackground">#d0184c</color>
     <color name="swipeBehindBackgroundSecondary">#17af98</color>
     <color name="swipeBehindTextColor">#ffffff</color>
+
+    <color name="filter_title">#409543</color>
+    <color name="filter_item_text_color">#E48902</color>
+    <color name="filter_cardView_bg">#68E1E0DE</color>
+
 
 
 </resources>

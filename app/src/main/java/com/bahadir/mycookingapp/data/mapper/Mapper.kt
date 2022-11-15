@@ -5,6 +5,7 @@ import com.bahadir.mycookingapp.data.model.remote.ExtendedIngredient
 import com.bahadir.mycookingapp.data.model.remote.Recipe
 import com.bahadir.mycookingapp.data.model.remote.SimilarItem
 import com.bahadir.mycookingapp.data.model.remote.Step
+import com.bahadir.mycookingapp.data.model.search.SearchResult
 import com.bahadir.mycookingapp.domain.model.*
 
 
@@ -24,6 +25,7 @@ fun List<SimilarItem>.similarUI() = map {
         title = it.title
     )
 }
+
 
 fun List<ExtendedIngredient>.ingredientUI() = map {
     IngredientUI(
@@ -59,6 +61,14 @@ fun Recipe.recipeUI() = RecipeUI(
     imageFilePath = ""
 )
 
+fun List<RandomFoodRecipeUI>.randomToSearchResultUI() = map {
+    SearchResult(
+        id = it.id,
+        image = it.image,
+        imageType = "jpg",
+        title = it.title
+    )
+}
 
 
 

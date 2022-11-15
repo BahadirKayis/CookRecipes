@@ -11,4 +11,5 @@ object Constants {
     const val RANDOM = "random"
     const val SIMILAR = "{id}/similar"
     const val INFORMATION = "{id}/information"
+    const val SEARCH = "complexSearch"
 }

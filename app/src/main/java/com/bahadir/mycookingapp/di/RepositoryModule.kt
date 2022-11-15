@@ -3,7 +3,7 @@ package com.bahadir.mycookingapp.di
 import android.app.Application
 import com.bahadir.mycookingapp.data.repository.FoodRepositoryImpl
 import com.bahadir.mycookingapp.domain.repository.FoodRepository
-import com.bahadir.mycookingapp.domain.source.locale.LocalDataSource
+import com.bahadir.mycookingapp.domain.source.local.LocalDataSource
 import com.bahadir.mycookingapp.domain.source.remote.RemoteDataSource
 import dagger.Module
 import dagger.Provides
@@ -22,4 +22,5 @@ object RepositoryModule {
         localDataSource: LocalDataSource,
         application: Application
     ): FoodRepository = FoodRepositoryImpl(remoteDataSource, localDataSource, application)
+
 }

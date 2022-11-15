@@ -1,10 +1,10 @@
 package com.bahadir.mycookingapp.di
 
-import com.bahadir.mycookingapp.data.source.locole.FoodDao
-import com.bahadir.mycookingapp.data.source.locole.LocalDataSourceImpl
+import com.bahadir.mycookingapp.data.source.local.FoodDao
+import com.bahadir.mycookingapp.data.source.local.LocalDataSourceImpl
 import com.bahadir.mycookingapp.data.source.remote.FoodService
 import com.bahadir.mycookingapp.data.source.remote.RemoteDataSourceImpl
-import com.bahadir.mycookingapp.domain.source.locale.LocalDataSource
+import com.bahadir.mycookingapp.domain.source.local.LocalDataSource
 import com.bahadir.mycookingapp.domain.source.remote.RemoteDataSource
 import dagger.Module
 import dagger.Provides

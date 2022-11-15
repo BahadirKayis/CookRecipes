@@ -1,4 +1,4 @@
-package com.bahadir.mycookingapp.data.source.locole
+package com.bahadir.mycookingapp.data.source.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

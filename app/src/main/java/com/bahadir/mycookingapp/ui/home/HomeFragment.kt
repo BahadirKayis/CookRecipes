@@ -14,6 +14,7 @@ import com.bahadir.mycookingapp.common.gone
 import com.bahadir.mycookingapp.common.viewBinding
 
 import com.bahadir.mycookingapp.common.visible
+import com.bahadir.mycookingapp.data.model.local.CustomData
 import com.bahadir.mycookingapp.databinding.FragmentHomeBinding
 
 
@@ -65,23 +66,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), MenuAdapter.MenuAdapterIn
 
             }
 
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                menu.collect { response ->
-                    when (response) {
-                        is Resource.Loading -> {}
-                        is Resource.Success -> {
-
-                            val adapter = MenuAdapter(response.data, this@HomeFragment)
-                            binding.recyclerMenu.adapter = adapter
-                        }
-                        is Resource.Error -> {
-
-                            Log.e("throwable", response.throwable.toString())
-                        }
-                    }
-                }
-
-            }
+            val adapter = MenuAdapter(CustomData.getMenu(), this@HomeFragment)
+            binding.recyclerMenu.adapter = adapter
 
         }
     }

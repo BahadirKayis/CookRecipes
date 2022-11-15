@@ -21,7 +21,7 @@ class SimilarRecipeAdapter(
         fun bind(item: SimilarRecipeUI) {
             with(binding) {
                 foodImage.glideImage(item.image!!)
-                title.text = item.title.titleCount()
+                title.text = item.title.titleCount(20)
                 itemView.setOnClickListener {
                     recipeInterface.similarRecipeClick(item.id)
                 }

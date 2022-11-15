@@ -63,7 +63,7 @@ abstract class SwipeToDeleteCallback(context: Context) :
                 itemView.right.toFloat(),
                 itemView.bottom.toFloat()
             )
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, false)
             return
         }
 

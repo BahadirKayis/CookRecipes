@@ -26,7 +26,8 @@ class RecipeMadeFragment : Fragment(R.layout.fragment_recipe_made) {
                 )
             )
         } else {
-            checkNotNull(arguments?.getParcelable<RecipeUI>("recipe"))
+            @Suppress("DEPRECATION")
+            checkNotNull(arguments?.getParcelable("recipe"))
         }
 
         if (step.step != null) {
@@ -36,7 +37,6 @@ class RecipeMadeFragment : Fragment(R.layout.fragment_recipe_made) {
         } else {
             binding.stepRecycler.gone()
             binding.image.visible()
-
             binding.instructions.visible()
             binding.instructions.text = step.instructions
 

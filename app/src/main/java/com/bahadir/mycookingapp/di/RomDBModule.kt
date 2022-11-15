@@ -2,8 +2,8 @@ package com.bahadir.mycookingapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.bahadir.mycookingapp.data.source.locole.FoodDao
-import com.bahadir.mycookingapp.data.source.locole.FoodDatabase
+import com.bahadir.mycookingapp.data.source.local.FoodDao
+import com.bahadir.mycookingapp.data.source.local.FoodDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

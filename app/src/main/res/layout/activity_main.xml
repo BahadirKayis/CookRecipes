@@ -24,6 +24,7 @@
         android:layout_height="60dp"
         app:duration="200"
         app:sideMargins="10dp"
+
         app:backgroundColor="@color/toolbar"
         app:iconSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
