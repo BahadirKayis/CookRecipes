@@ -1,19 +1,24 @@
 package com.bahadir.mycookingapp.ui.menu
 
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.viewBinding
+import com.bahadir.mycookingapp.data.model.local.CustomData
+import com.bahadir.mycookingapp.data.model.remote.filter.Filter
 import com.bahadir.mycookingapp.databinding.FragmentMenuBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+
 
 @AndroidEntryPoint
 class MenuFragment : Fragment(R.layout.fragment_menu),
@@ -22,11 +27,13 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
     private val adapter: MenuCategoryItemAdapter by lazy { MenuCategoryItemAdapter(this) }
     private val viewModel: MenuCategoryItemViewModel by viewModels()
     private val args: MenuFragmentArgs by navArgs()
-
+    private var filterModel: Filter? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val categoryName = args.categoryName
-        binding()
-        collectData(categoryName)
+        collectData()
+        filterResult()
+        initUI()
+
         categoryName.also {
             if (it == "") {
                 "Random Recipe".also { its -> binding.categoryName.text = its }
@@ -34,31 +41,57 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
                 "$it Recipe".also { its -> binding.categoryName.text = its }
             }
         }
+
+
     }
 
-    private fun binding() {
-        with(binding) {
-            recyclerMenu.layoutManager = GridLayoutManager(requireContext(), 2)
-            binding.recyclerMenu.adapter = adapter
+    private fun filterResult() {
+        setFragmentResultListener("popUp") { _, bundle ->
+            filterModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                bundle.getParcelable("filterList", Filter::class.java)
+            } else {
+
+                @Suppress("DEPRECATION") bundle.getParcelable("filterList")
+            }
+            viewModel.getMenuCategoryItem(filterModelController())
+
+            Log.e("filterResult", filterModel.toString())
         }
     }
 
 
-    private fun collectData(categoryName: String) {
+    private fun initUI() {
+        with(binding) {
+            filterButton.setOnClickListener {
+                findNavController().navigate(
+                    MenuFragmentDirections.actionMenuFragmentToFilterFragment(
+                        filterModelController()
+                    )
+                )
+            }
+        }
+    }
+
+    private fun collectData() {
         with(viewModel) {
-
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                getMenuCategoryItem(
-                    5,
-                    categoryName.lowercase(Locale.getDefault())
-                ).collect { pagingData ->
-                    adapter.submitData(pagingData)
-
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                getMenu.collect {
+                    binding.recyclerMenu.adapter = adapter
+                    adapter.submitData(lifecycle, it)
                 }
+
             }
 
         }
 
+    }
+
+    private fun filterModelController(): Filter {
+        return filterModel?.let {
+            filterModel
+        } ?: run {
+            CustomData.getFilterModel(false)
+        }
     }
 
     override fun menuCategoryToRecipe(id: Int) {

@@ -1,4 +1,4 @@
-package com.bahadir.mycookingapp.data.model.search
+package com.bahadir.mycookingapp.data.model.remote.search
 
 
 import com.google.gson.annotations.SerializedName

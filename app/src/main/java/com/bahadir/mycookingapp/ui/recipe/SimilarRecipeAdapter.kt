@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.bahadir.mycookingapp.common.glideImage
 import com.bahadir.mycookingapp.common.titleCount
-import com.bahadir.mycookingapp.databinding.ItemRandomFoodBinding
+import com.bahadir.mycookingapp.databinding.ItemRandomRecipeBinding
 import com.bahadir.mycookingapp.domain.model.SimilarRecipeUI
 
 
@@ -16,7 +16,7 @@ class SimilarRecipeAdapter(
     private val recipeInterface: SimilarRecipeAdapterInterface
 ) :
     RecyclerView.Adapter<SimilarRecipeAdapter.RandomFoodViewHolder>() {
-    inner class RandomFoodViewHolder(private val binding: ItemRandomFoodBinding) :
+    inner class RandomFoodViewHolder(private val binding: ItemRandomRecipeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SimilarRecipeUI) {
             with(binding) {
@@ -32,7 +32,7 @@ class SimilarRecipeAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RandomFoodViewHolder {
         val binding =
-            ItemRandomFoodBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemRandomRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RandomFoodViewHolder(binding)
     }
 

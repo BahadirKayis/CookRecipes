@@ -3,7 +3,7 @@ package com.bahadir.mycookingapp.data.source.remote
 import com.bahadir.mycookingapp.data.model.remote.RandomFood
 import com.bahadir.mycookingapp.data.model.remote.Recipe
 import com.bahadir.mycookingapp.data.model.remote.SimilarItem
-import com.bahadir.mycookingapp.data.model.search.SearchResponse
+import com.bahadir.mycookingapp.data.model.remote.search.SearchResponse
 import com.bahadir.mycookingapp.domain.source.remote.RemoteDataSource
 
 

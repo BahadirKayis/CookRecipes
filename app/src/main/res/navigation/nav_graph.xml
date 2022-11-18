@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_menuFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
     </fragment>
     <fragment
         android:id="@+id/randomFoodFragment"
@@ -24,6 +27,7 @@
 
         <action
             android:id="@+id/action_randomFoodFragment_to_menuFragment"
+
             app:destination="@id/menuFragment" />
         <action
             android:id="@+id/action_randomFoodFragment_to_recipeFragment"
@@ -41,6 +45,9 @@
         <action
             android:id="@+id/action_recipeFragment_self"
             app:destination="@id/recipeFragment" />
+        <action
+            android:id="@+id/action_recipeFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
     </fragment>
     <fragment
         android:id="@+id/ingredientFragment"
@@ -74,7 +81,7 @@
             app:destination="@id/filterFragment" />
         <argument
             android:name="filterModel"
-            app:argType="com.bahadir.mycookingapp.data.model.filter.Filter"
+            app:argType="com.bahadir.mycookingapp.data.model.remote.filter.Filter"
             app:nullable="false" />
         <action
             android:id="@+id/action_searchFragment_to_recipeFragment"
@@ -90,7 +97,7 @@
             app:destination="@id/searchFragment" />
         <argument
             android:name="filterModel"
-            app:argType="com.bahadir.mycookingapp.data.model.filter.Filter"
+            app:argType="com.bahadir.mycookingapp.data.model.remote.filter.Filter"
             app:nullable="false" />
 
     </dialog>

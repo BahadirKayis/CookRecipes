@@ -1,5 +1,6 @@
 package com.bahadir.mycookingapp.ui.recipe
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -27,21 +28,13 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.isRecipeSaved(args.recipeId)
-        cloudRequest()
+
         collectData()
     }
 
-    private fun cloudRequest() {
-        with(viewModel) {
-            getSimilarRecipe(args.recipeId, 10)
-            getRecipe(args.recipeId)
-        }
-    }
 
     private fun collectData() {
-        with(viewModel)
-        {
+        with(viewModel) {
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 recipe.collect { response ->
                     when (response) {
@@ -56,8 +49,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
                         is Resource.Error -> {
                             binding.animLoading.gone()
                             Log.e(
-                                "throwable-recipe",
-                                response.throwable.toString()
+                                "throwable-recipe", response.throwable.toString()
                             )
                         }
                     }
@@ -72,8 +64,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
                             binding.similarRecipe.adapter = adapter
                         }
                         is Resource.Error -> Log.e(
-                            "throwable-similarRecipe",
-                            response.throwable.toString()
+                            "throwable-similarRecipe", response.throwable.toString()
                         )
                     }
                 }
@@ -90,12 +81,10 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
                             Log.e("collectDataİs-", response.data.toString())
                             if (response.data) {
                                 isTheRecipeSaved = true
-                                binding.toolbar.menu.getItem(0)
-                                    .setIcon(R.drawable.star_on)
+                                binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_on)
                             } else {
                                 isTheRecipeSaved = false
-                                binding.toolbar.menu.getItem(0)
-                                    .setIcon(R.drawable.star_off)
+                                binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_off)
                             }
                         }
                         is Resource.Error -> {
@@ -162,6 +151,13 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
 
                         true
                     }
+                    R.id.shareOtherApp -> {
+                        shareOtherApp(
+
+                            recipe.title, recipe.sourceUrl
+                        )
+                        true
+                    }
                     else -> false
                 }
             }
@@ -176,13 +172,21 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
         ) {
         val tabLayoutName = listOf("Recipe", "Ingredient")
         with(binding) {
-            viewPager.adapter =
-                ViewPagerAdapter(childFragmentManager, lifecycle, recipe)
+            viewPager.adapter = ViewPagerAdapter(childFragmentManager, lifecycle, recipe)
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = tabLayoutName[position]
             }.attach()
 
         }
+    }
+
+    private fun shareOtherApp(foodName: String, url: String) {
+        Log.e("shareOtherApp", "$foodName $url")
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_SUBJECT, foodName)
+        intent.putExtra(Intent.EXTRA_TEXT, url)
+        startActivity(Intent.createChooser(intent, "Share Via"))
     }
 
     override fun similarRecipeClick(recipeId: Int) {

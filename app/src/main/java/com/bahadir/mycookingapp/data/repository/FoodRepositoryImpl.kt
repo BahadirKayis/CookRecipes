@@ -2,7 +2,6 @@ package com.bahadir.mycookingapp.data.repository
 
 
 import android.app.Application
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -11,8 +10,8 @@ import com.bahadir.mycookingapp.common.imageDownloadSaveFile
 import com.bahadir.mycookingapp.data.mapper.randomFoodToUI
 import com.bahadir.mycookingapp.data.mapper.recipeUI
 import com.bahadir.mycookingapp.data.mapper.similarUI
-import com.bahadir.mycookingapp.data.model.filter.Filter
-import com.bahadir.mycookingapp.data.model.search.SearchResult
+import com.bahadir.mycookingapp.data.model.remote.filter.Filter
+import com.bahadir.mycookingapp.data.model.remote.search.SearchResult
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 import com.bahadir.mycookingapp.domain.model.RecipeUI
 import com.bahadir.mycookingapp.domain.model.SimilarRecipeUI
@@ -48,19 +47,26 @@ class FoodRepositoryImpl(
         }
     }
 
-    override fun getMenuCategory(
-        size: Int, category: String
-    ): Flow<PagingData<RandomFoodRecipeUI>> {
 
-        return Pager(
-            config = PagingConfig(size, maxSize = 100, enablePlaceholders = false),
+    override fun getMenuCategory(
+        size: Int, category: String, filterModel: Filter?
+    ): Flow<PagingData<RandomFoodRecipeUI>> = flow {
+
+        var categoryFilter = "$category,"
+        filterModel?.let {
+            filterModel.diet.forEach { if (it.checked) categoryFilter += it.name.lowercase() + "," }
+            filterModel.country.forEach { if (it.checked) categoryFilter += it.name.lowercase() + "," }
+            filterModel.intolerances.forEach { if (it.checked) categoryFilter += it.name.lowercase() + "," }
+        }
+
+
+        Pager(config = PagingConfig(size, maxSize = 100, enablePlaceholders = false),
             pagingSourceFactory = {
+
                 Paging(
-                    remoteDataSource = remoteDataSource,
-                    size,
-                    category
+                    remoteDataSource = remoteDataSource, size, categoryFilter
                 )
-            }).flow
+            }).flow.collect { emit(it) }
 
 
     }
@@ -101,6 +107,7 @@ class FoodRepositoryImpl(
         emit(Resource.Loading)
 
         val response = try {
+
             localDataSource.isSaveRecipe(recipeId)
         } catch (e: Throwable) {
             emit(Resource.Error(e))
@@ -134,8 +141,7 @@ class FoodRepositoryImpl(
         localDataSource.deleteRecipeFavorite(recipeId)
 
     override suspend fun getSearch(
-        query: String,
-        filterModel: Filter
+        query: String, filterModel: Filter
     ): Flow<Resource<List<SearchResult>>> = flow {
 
         emit(Resource.Loading)
@@ -143,27 +149,22 @@ class FoodRepositoryImpl(
         var country = ""
         var intolerances = ""
         var mealType = ""
-        filterModel.diet.forEach { if (it.checked) diet += it.name.lowercase() + "," }
-        filterModel.country.forEach { if (it.checked) country += it.name.lowercase() + "," }
-        filterModel.intolerances.forEach { if (it.checked) intolerances += it.name.lowercase() + "," }
-        filterModel.mealTypes.forEach { if (it.checked) mealType += it.name.lowercase() + "," }
+        filterModel.let {
+            filterModel.diet.forEach { if (it.checked) diet += it.name.lowercase() + "," }
+            filterModel.country.forEach { if (it.checked) country += it.name.lowercase() + "," }
+            filterModel.intolerances.forEach { if (it.checked) intolerances += it.name.lowercase() + "," }
+            filterModel.mealTypes?.forEach { if (it.checked) mealType += it.name.lowercase() + "," }
+        }
 
 
         val response = try {
             remoteDataSource.searchRecipe(
-                query,
-                diet,
-                country,
-                intolerances,
-                mealType
+                query, diet, country, intolerances, mealType
             )
         } catch (e: Throwable) {
             emit(Resource.Error(e))
             null
         }
-
-
-        Log.d("TAG", "getSearch: ${response.toString()}")
 
         response?.let { emit(Resource.Success(it.results)) }
     }

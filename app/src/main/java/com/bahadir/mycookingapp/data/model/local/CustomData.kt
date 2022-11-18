@@ -2,11 +2,11 @@ package com.bahadir.mycookingapp.data.model.local
 
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.data.model.Menu
-import com.bahadir.mycookingapp.data.model.filter.*
+import com.bahadir.mycookingapp.data.model.remote.filter.*
 
 object CustomData {
 
-    fun getFilterModel(): Filter {
+    fun getFilterModel(mealType: Boolean = true): Filter {
         val diet = listOf(
             Diets(0, "Gluten Free"),
             Diets(1, "Ketogenic"),
@@ -49,7 +49,13 @@ object CustomData {
             MealTypes(7, "Main Course"),
 
             )
-        return Filter(diet, intolerances, country, mealTypes)
+        return if (mealType) {
+            Filter(diet, intolerances, country, mealTypes)
+        } else {
+            Filter(diet, intolerances, country, null)
+        }
+
+
     }
 
     fun getMenu(): List<Menu> {

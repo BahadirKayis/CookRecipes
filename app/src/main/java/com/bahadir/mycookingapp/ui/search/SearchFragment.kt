@@ -13,14 +13,15 @@ import androidx.navigation.fragment.findNavController
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.*
 import com.bahadir.mycookingapp.data.mapper.randomToSearchResultUI
-import com.bahadir.mycookingapp.data.model.filter.Filter
 import com.bahadir.mycookingapp.data.model.local.CustomData
+import com.bahadir.mycookingapp.data.model.remote.filter.Filter
 import com.bahadir.mycookingapp.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchAdapterInterface {
+
     private val binding by viewBinding(FragmentSearchBinding::bind)
     private var filterModel: Filter? = null
 
@@ -52,7 +53,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchA
         return filterModel?.let {
             filterModel
         } ?: run {
-            CustomData.getFilterModel()
+            CustomData.getFilterModel(true)
         }
     }
 
@@ -133,7 +134,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchA
 
         }
 
-
     }
 
     private fun editTextEvent() {
@@ -171,6 +171,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchA
                 }
             }
         }
+
 
     }
 

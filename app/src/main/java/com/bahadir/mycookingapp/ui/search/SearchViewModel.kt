@@ -4,15 +4,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bahadir.mycookingapp.common.Resource
-import com.bahadir.mycookingapp.data.model.filter.Filter
-import com.bahadir.mycookingapp.data.model.search.SearchResult
+import com.bahadir.mycookingapp.data.model.remote.filter.Filter
+import com.bahadir.mycookingapp.data.model.remote.search.SearchResult
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 import com.bahadir.mycookingapp.domain.usecase.search.SearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,10 +31,10 @@ class SearchViewModel @Inject constructor(private val searchUseCase: SearchUseCa
     }
 
     fun getSearch(query: String, filter: Filter) = viewModelScope.launch {
-        searchUseCase.getSearch.invoke(query, filter).collect {
+        searchUseCase.getSearch.invoke(query, filter).onEach {
             _getSearch.emit(it)
             Log.e("TAG", "getSearch: $it")
-        }
+        }.launchIn(viewModelScope)
     }
 
     private fun getRandom() = viewModelScope.launch {

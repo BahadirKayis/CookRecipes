@@ -10,9 +10,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.gone
 import com.bahadir.mycookingapp.common.viewBinding
-import com.bahadir.mycookingapp.data.model.filter.Filter
 import com.bahadir.mycookingapp.data.model.local.CustomData
+import com.bahadir.mycookingapp.data.model.remote.filter.Filter
 import com.bahadir.mycookingapp.databinding.FragmentFilterBinding
 import com.bahadir.mycookingapp.ui.filter.adapter.CountryAdapter
 import com.bahadir.mycookingapp.ui.filter.adapter.DietsAdapter
@@ -30,7 +31,7 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
     private lateinit var adapterDiet: DietsAdapter
     private lateinit var adapterCountry: CountryAdapter
     private lateinit var adapterIntolerance: IntolerancesAdapter
-    private lateinit var adapterMealType: MealTypeAdapter
+    private var adapterMealType: MealTypeAdapter? = null
     private val spanCount: Int = 3
     private lateinit var returnFilterModel: Filter
     private val args: FilterFragmentArgs by navArgs()
@@ -41,7 +42,7 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
         super.onViewCreated(view, savedInstanceState)
         returnFilterModel = args.filterModel
         initUi()
-        returnDataList()
+        adapterUnit()
         clickListener()
     }
 
@@ -77,15 +78,21 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
             intoleranceRecyclerView.adapter = adapterIntolerance
             intoleranceRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
 
-            adapterMealType = MealTypeAdapter(returnFilterModel.mealTypes)
-            mealTypeRecyclerView.adapter = adapterMealType
-            mealTypeRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+            returnFilterModel.mealTypes?.let {
+                adapterMealType = MealTypeAdapter(it)
+                mealTypeRecyclerView.adapter = adapterMealType
+                mealTypeRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+            } ?: run {
+                mealTypeText.gone()
+                mealTypeRecyclerView.gone()
+            }
+
 
         }
 
     }
 
-    private fun returnDataList() {
+    private fun adapterUnit() {
         adapterDiet.listHigh = { highDiet ->
             returnFilterModel.diet = highDiet
 
@@ -98,10 +105,12 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
             returnFilterModel.intolerances = highIntolerance
 
         }
-        adapterMealType.listHigh = { highMealType ->
+
+        adapterMealType?.listHigh = { highMealType ->
             returnFilterModel.mealTypes = highMealType
 
         }
+
 
     }
 

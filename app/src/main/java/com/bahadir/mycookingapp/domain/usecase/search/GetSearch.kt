@@ -1,6 +1,6 @@
 package com.bahadir.mycookingapp.domain.usecase.search
 
-import com.bahadir.mycookingapp.data.model.filter.Filter
+import com.bahadir.mycookingapp.data.model.remote.filter.Filter
 import com.bahadir.mycookingapp.domain.repository.FoodRepository
 import javax.inject.Inject
 

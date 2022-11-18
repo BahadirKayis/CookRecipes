@@ -13,7 +13,9 @@ import com.bahadir.mycookingapp.databinding.ItemMenuCategoryListBinding
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 
 
-class MenuCategoryItemAdapter(private val menuCategoryInterface: MenuCategoryInterface) :
+class MenuCategoryItemAdapter(
+    private val menuCategoryInterface: MenuCategoryInterface
+) :
     PagingDataAdapter<RandomFoodRecipeUI, MenuCategoryItemAdapter.ViewHolder>(diffCallBack) {
 
     inner class ViewHolder(private val binding: ItemMenuCategoryListBinding) :
@@ -73,13 +75,13 @@ class MenuCategoryItemAdapter(private val menuCategoryInterface: MenuCategoryInt
             override fun areItemsTheSame(
                 oldItem: RandomFoodRecipeUI, newItem: RandomFoodRecipeUI
             ): Boolean {
-                return oldItem.id == newItem.id
+                return newItem == oldItem
             }
 
             override fun areContentsTheSame(
                 oldItem: RandomFoodRecipeUI, newItem: RandomFoodRecipeUI
             ): Boolean {
-                return oldItem == newItem
+                return newItem.id == oldItem.id
             }
         }
     }

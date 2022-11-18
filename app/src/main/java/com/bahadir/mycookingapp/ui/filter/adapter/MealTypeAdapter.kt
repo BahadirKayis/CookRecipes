@@ -3,7 +3,7 @@ package com.bahadir.mycookingapp.ui.filter.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bahadir.mycookingapp.data.model.filter.MealTypes
+import com.bahadir.mycookingapp.data.model.remote.filter.MealTypes
 import com.bahadir.mycookingapp.databinding.ItemFilterBinding
 
 

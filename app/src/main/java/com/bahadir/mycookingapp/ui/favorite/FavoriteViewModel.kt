@@ -17,7 +17,7 @@ import javax.inject.Inject
 class FavoriteViewModel @Inject constructor(private val favoriteUseCase: FavoriteUseCase) :
     ViewModel() {
 
-    private val tasksEventChannel = Channel<TasksEvent>()
+    private val tasksEventChannel = Channel<RecipeEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
 
 
@@ -27,8 +27,11 @@ class FavoriteViewModel @Inject constructor(private val favoriteUseCase: Favorit
     private val _deleteRecipe = MutableStateFlow<Resource<RecipeUI>>(Resource.Loading)
     val deleteRecipe = _deleteRecipe.asStateFlow()
 
+    init {
+        getAllRecipe()
+    }
 
-    fun getAllRecipe() = viewModelScope.launch {
+    private fun getAllRecipe() = viewModelScope.launch {
         favoriteUseCase.getAllRecipe.invoke().collect {
             _getAllRecipe.emit(it)
         }
@@ -43,14 +46,14 @@ class FavoriteViewModel @Inject constructor(private val favoriteUseCase: Favorit
 
     fun deleteRecipe(recipe: RecipeUI) = viewModelScope.launch {
         favoriteUseCase.deleteRecipe.invoke(recipe)
-        tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(recipe))
+        tasksEventChannel.send(RecipeEvent.ShowUndoDeleteRecipeMessage(recipe))
         getAllRecipe()
 
     }
 
 
-    sealed class TasksEvent {
-        data class ShowUndoDeleteTaskMessage(val recipe: RecipeUI) : TasksEvent()
+    sealed class RecipeEvent {
+        data class ShowUndoDeleteRecipeMessage(val recipe: RecipeUI) : RecipeEvent()
     }
 
 }

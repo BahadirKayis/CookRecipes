@@ -7,8 +7,8 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.glideImage
-import com.bahadir.mycookingapp.data.model.search.SearchResult
-import com.bahadir.mycookingapp.databinding.ItemSearchFoodBinding
+import com.bahadir.mycookingapp.data.model.remote.search.SearchResult
+import com.bahadir.mycookingapp.databinding.ItemSearchRecipeBinding
 
 
 class SearchAdapter(
@@ -16,7 +16,7 @@ class SearchAdapter(
     private val searchAdapterInterface: SearchAdapterInterface
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ItemSearchFoodBinding) :
+    inner class ViewHolder(private val binding: ItemSearchRecipeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SearchResult) {
             try {
@@ -45,7 +45,7 @@ class SearchAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemSearchFoodBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemSearchRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

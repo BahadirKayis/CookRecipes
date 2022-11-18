@@ -5,7 +5,7 @@ import com.bahadir.mycookingapp.data.model.remote.ExtendedIngredient
 import com.bahadir.mycookingapp.data.model.remote.Recipe
 import com.bahadir.mycookingapp.data.model.remote.SimilarItem
 import com.bahadir.mycookingapp.data.model.remote.Step
-import com.bahadir.mycookingapp.data.model.search.SearchResult
+import com.bahadir.mycookingapp.data.model.remote.search.SearchResult
 import com.bahadir.mycookingapp.domain.model.*
 
 
@@ -53,7 +53,7 @@ fun Recipe.recipeUI() = RecipeUI(
     veryPopular = veryPopular,
     cheap = cheap,
     extendedIngredients = extendedIngredients.ingredientUI(),
-    step = analyzedInstructions[0].steps.stepUI(),
+    step = analyzedInstructions?.get(0)?.steps?.stepUI(),
     healthScore = healthScore,
     image = image,
     sourceUrl = sourceUrl,

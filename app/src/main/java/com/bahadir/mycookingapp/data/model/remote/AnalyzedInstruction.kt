@@ -10,5 +10,5 @@ data class AnalyzedInstruction(
     @SerializedName("name")
     val name: String,
     @SerializedName("steps")
-    val steps: List<Step>
+    val steps: List<Step>?
 ) : Parcelable

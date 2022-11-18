@@ -27,7 +27,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         collectData()
-        viewModel.getAllRecipe()
         setUpRecyclerView()
     }
 
@@ -55,7 +54,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite),
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.tasksEvent.collect { event ->
                     when (event) {
-                        is FavoriteViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
+                        is FavoriteViewModel.RecipeEvent.ShowUndoDeleteRecipeMessage -> {
                             Snackbar.make(requireView(), "Recipe Deleted", 3000).setAction("UNDO") {
                                 viewModel.onUndoRecipe(event.recipe)
                             }.show()

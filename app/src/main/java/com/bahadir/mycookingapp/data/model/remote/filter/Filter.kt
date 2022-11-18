@@ -1,4 +1,4 @@
-package com.bahadir.mycookingapp.data.model.filter
+package com.bahadir.mycookingapp.data.model.remote.filter
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -8,5 +8,5 @@ data class Filter(
     var diet: List<Diets>,
     var intolerances: List<Intolerances>,
     var country: List<Country>,
-    var mealTypes: List<MealTypes>
+    var mealTypes: List<MealTypes>?
 ) : Parcelable
