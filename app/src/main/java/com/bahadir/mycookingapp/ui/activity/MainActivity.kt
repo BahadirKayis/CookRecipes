@@ -5,10 +5,13 @@ import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.gone
 import com.bahadir.mycookingapp.common.viewBinding
+import com.bahadir.mycookingapp.common.visible
 
 import com.bahadir.mycookingapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -17,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupSmoothBottomMenu()
+
     }
 
     private fun setupSmoothBottomMenu() {
@@ -26,6 +30,16 @@ class MainActivity : AppCompatActivity() {
         popupMenu.inflate(R.menu.bottom_menu)
         val menu = popupMenu.menu
         binding.bottomNavigation.setupWithNavController(menu, navHostFragment.navController)
+        navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.splashFragment -> {
+                    binding.bottomNavigation.gone()
+                }
+                else -> {
+                    binding.bottomNavigation.visible()
+                }
+            }
+        }
 
     }
 

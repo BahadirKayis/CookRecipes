@@ -26,5 +26,5 @@ interface FoodRepository {
     suspend fun deleteRecipe(recipeId: Int)
     fun allRecipe(): Flow<Resource<List<RecipeUI>>>
     suspend fun deleteFavoriteRecipe(recipeId: RecipeUI)
-    suspend fun getSearch(query: String, filterModel: Filter): Flow<Resource<List<SearchResult>>>
+    fun getSearch(query: String, filterModel: Filter): Flow<Resource<List<SearchResult>>>
 }

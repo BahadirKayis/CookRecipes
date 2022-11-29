@@ -15,6 +15,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.data.model.remote.filter.FilterTypes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
@@ -28,6 +29,15 @@ fun String.titleCount(count: Int): String {
     } else {
         this
     }
+}
+
+fun List<FilterTypes>.pars(): String {
+    var filterType = ""
+    this.forEach {
+        if (it.checked) filterType += it.name.lowercase() + ","
+    }
+
+    return filterType
 }
 
 

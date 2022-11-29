@@ -3,7 +3,6 @@ package com.bahadir.mycookingapp.ui.menu
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -28,12 +27,13 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
     private val viewModel: MenuCategoryItemViewModel by viewModels()
     private val args: MenuFragmentArgs by navArgs()
     private var filterModel: Filter? = null
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val categoryName = args.categoryName
         collectData()
         filterResult()
         initUI()
-
         categoryName.also {
             if (it == "") {
                 "Random Recipe".also { its -> binding.categoryName.text = its }
@@ -54,8 +54,6 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
                 @Suppress("DEPRECATION") bundle.getParcelable("filterList")
             }
             viewModel.getMenuCategoryItem(filterModelController())
-
-            Log.e("filterResult", filterModel.toString())
         }
     }
 

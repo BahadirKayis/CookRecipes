@@ -1,19 +1,18 @@
-package com.bahadir.mycookingapp.ui.filter.adapter
+package com.bahadir.mycookingapp.ui.filter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bahadir.mycookingapp.data.model.remote.filter.Country
-
+import com.bahadir.mycookingapp.data.model.remote.filter.FilterTypes
 import com.bahadir.mycookingapp.databinding.ItemFilterBinding
 
-class CountryAdapter(private val list: List<Country>) :
-    RecyclerView.Adapter<CountryAdapter.ViewHolder>() {
-    var listHigh: (List<Country>) -> Unit = { list }
+class FilterTypeAdapter(private val list: List<FilterTypes>) :
+    RecyclerView.Adapter<FilterTypeAdapter.ViewHolder>() {
+    var listHigh: (List<FilterTypes>) -> Unit = { list }
 
     inner class ViewHolder(private val binding: ItemFilterBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Country) {
+        fun bind(item: FilterTypes) {
             with(binding) {
                 checkbox.isChecked = item.checked
                 checkbox.text = item.name

@@ -18,14 +18,17 @@ class FavoriteViewModel @Inject constructor(private val favoriteUseCase: Favorit
     ViewModel() {
 
     private val tasksEventChannel = Channel<RecipeEvent>()
-    val tasksEvent = tasksEventChannel.receiveAsFlow()
+    val tasksEvent
+        get() = tasksEventChannel.receiveAsFlow()
 
 
     private val _getAllRecipe = MutableStateFlow<Resource<List<RecipeUI>>>(Resource.Loading)
-    val getAllRecipe = _getAllRecipe.asStateFlow()
+    val getAllRecipe
+        get() = _getAllRecipe.asStateFlow()
 
     private val _deleteRecipe = MutableStateFlow<Resource<RecipeUI>>(Resource.Loading)
-    val deleteRecipe = _deleteRecipe.asStateFlow()
+    val deleteRecipe
+        get() = _deleteRecipe.asStateFlow()
 
     init {
         getAllRecipe()

@@ -5,8 +5,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Filter(
-    var diet: List<Diets>,
-    var intolerances: List<Intolerances>,
-    var country: List<Country>,
-    var mealTypes: List<MealTypes>?
+    var diet: List<FilterTypes>,
+    var intolerances: List<FilterTypes>,
+    var country: List<FilterTypes>,
+    var mealTypes: List<FilterTypes>?
 ) : Parcelable

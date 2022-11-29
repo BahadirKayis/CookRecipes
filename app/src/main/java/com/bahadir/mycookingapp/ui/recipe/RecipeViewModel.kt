@@ -21,13 +21,16 @@ class RecipeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _recipe = MutableStateFlow<Resource<RecipeUI>>(Resource.Loading)
-    val recipe = _recipe.asStateFlow()
+    val recipe
+        get() = _recipe.asStateFlow()
 
     private val _similarRecipe = MutableStateFlow<Resource<List<SimilarRecipeUI>>>(Resource.Loading)
-    val similarRecipe = _similarRecipe.asStateFlow()
+    val similarRecipe
+        get() = _similarRecipe.asStateFlow()
 
     private val _isSavedRecipe = MutableStateFlow<Resource<Boolean>>(Resource.Loading)
-    val isSavedRecipe = _isSavedRecipe.asStateFlow()
+    val isSavedRecipe
+        get() = _isSavedRecipe.asStateFlow()
 
     init {
         savedStateHandle.get<Int>(STATE_KEY_RECIPE_ID)?.let {

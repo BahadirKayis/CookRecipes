@@ -2,7 +2,6 @@ package com.bahadir.mycookingapp.ui.search
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -12,11 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.*
-import com.bahadir.mycookingapp.data.mapper.randomToSearchResultUI
 import com.bahadir.mycookingapp.data.model.local.CustomData
 import com.bahadir.mycookingapp.data.model.remote.filter.Filter
 import com.bahadir.mycookingapp.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 
 @AndroidEntryPoint
@@ -28,10 +27,10 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchA
     private val viewModel: SearchViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        clickListener()
+        initUI()
         filterResult()
         collectData()
-        editTextEvent()
+
 
     }
 
@@ -57,7 +56,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchA
         }
     }
 
-    private fun clickListener() {
+    private fun initUI() {
         with(binding) {
             filterButton.setOnClickListener {
                 findNavController().navigate(
@@ -80,64 +79,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchA
                 cancelSearch.gone()
             }
 
-        }
-    }
-
-    private fun collectData() {
-        with(viewModel) {
-            with(binding) {
-                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    getSearch.collect {
-                        when (it) {
-                            is Resource.Success -> {
-                                animLoading.gone()
-                                searchRecyclerView.visible()
-                                errorTextView.gone()
-                                searchRecyclerView.adapter =
-                                    SearchAdapter(it.data, this@SearchFragment)
-                            }
-                            is Resource.Error -> {
-                                animLoading.gone()
-                                searchRecyclerView.gone()
-                                errorTextView.visible()
-                                errorTextView.text = it.throwable.toString()
-                            }
-                            is Resource.Loading -> {
-                                animLoading.visible()
-                                errorTextView.gone()
-                            }
-                        }
-                    }
-                }
-                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    getRandom.collect { response ->
-                        when (response) {
-                            is Resource.Loading -> binding.animLoading.visible()
-                            is Resource.Success -> {
-                                val adapter = SearchAdapter(
-                                    response.data.randomToSearchResultUI(),
-                                    this@SearchFragment
-                                )
-                                binding.searchRecyclerView.adapter = adapter
-                                binding.animLoading.gone()
-                            }
-                            is Resource.Error -> {
-                                binding.animLoading.gone()
-                                Log.e("throwable", response.throwable.toString())
-                            }
-                        }
-                    }
-
-                }
-
-            }
-
-        }
-
-    }
-
-    private fun editTextEvent() {
-        with(binding) {
             searchEditText.setOnClickListener {
                 cancelSearch.visible()
             }
@@ -161,17 +102,52 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchA
                         cancelSearch.gone()
                         true
                     }
-                    KeyEvent.KEYCODE_BACK -> {
-                        searchEditText.clearFocus()
-                        searchEditText.hideKeyboard()
-                        cancelSearch.gone()
-                        true
-                    }
+
                     else -> false
                 }
             }
+            KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
+                if (!isOpen) {
+                    searchEditText.clearFocus()
+                    searchEditText.hideKeyboard()
+                    cancelSearch.gone()
+                }
+            }
+
         }
 
+    }
+
+    private fun collectData() {
+        with(viewModel) {
+            with(binding) {
+                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                    getSearch.collect {
+                        when (it) {
+                            is Resource.Success -> {
+                                animLoading.gone()
+                                errorTextView.gone()
+                                searchRecyclerView.adapter =
+                                    SearchAdapter(it.data, this@SearchFragment)
+                            }
+                            is Resource.Error -> {
+                                animLoading.gone()
+                                searchRecyclerView.gone()
+                                errorTextView.visible()
+                                errorTextView.text = it.throwable.toString()
+                            }
+                            is Resource.Loading -> {
+                                animLoading.visible()
+                                errorTextView.gone()
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+        }
 
     }
 

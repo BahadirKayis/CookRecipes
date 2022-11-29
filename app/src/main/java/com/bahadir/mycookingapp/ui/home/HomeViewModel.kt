@@ -16,7 +16,8 @@ class HomeViewModel @Inject constructor(private val getPopularity: GetPopularity
 
     private val _randomPopularity =
         MutableStateFlow<Resource<List<RandomFoodRecipeUI>>>(Resource.Loading)
-    val randomPopularity = _randomPopularity.asStateFlow()
+    val randomPopularity
+        get() = _randomPopularity.asStateFlow()
 
 
     init {
@@ -24,7 +25,7 @@ class HomeViewModel @Inject constructor(private val getPopularity: GetPopularity
     }
 
     private fun getPopularity() = viewModelScope.launch {
-        getPopularity.invoke().collect {
+        getPopularity.invoke(count = 15).collect {
             _randomPopularity.emit(it)
         }
     }

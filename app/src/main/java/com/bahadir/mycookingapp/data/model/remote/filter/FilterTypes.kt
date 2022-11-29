@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-data class Diets(
+data class FilterTypes(
     val id: Int,
     val name: String,
     var checked: Boolean = false,

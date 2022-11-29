@@ -17,14 +17,17 @@
 
     <TextView
         android:id="@+id/categoryName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:fontFamily="@font/sora_bold"
         android:textColor="@color/menu_text"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/material2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/material2"
         tools:text="Main Course" />
 
@@ -57,11 +60,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
-        app:spanCount="2"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/material2" />
+        app:layout_constraintTop_toBottomOf="@id/material2"
+        app:spanCount="2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,51 +2,52 @@ package com.bahadir.mycookingapp.data.model.local
 
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.data.model.Menu
-import com.bahadir.mycookingapp.data.model.remote.filter.*
+import com.bahadir.mycookingapp.data.model.remote.filter.Filter
+import com.bahadir.mycookingapp.data.model.remote.filter.FilterTypes
 
 object CustomData {
 
     fun getFilterModel(mealType: Boolean = true): Filter {
         val diet = listOf(
-            Diets(0, "Gluten Free"),
-            Diets(1, "Ketogenic"),
-            Diets(2, "Vegetarian"),
-            Diets(3, "Vegan"),
-            Diets(4, "Pescetarian"),
-            Diets(5, "Whole30")
+            FilterTypes(0, "Gluten Free"),
+            FilterTypes(1, "Ketogenic"),
+            FilterTypes(2, "Vegetarian"),
+            FilterTypes(3, "Vegan"),
+            FilterTypes(4, "Pescetarian"),
+            FilterTypes(5, "Whole30")
         )
 
 
         val country = listOf(
-            Country(0, "African"),
-            Country(1, "American"),
-            Country(2, "British"),
-            Country(3, "Chinese"),
-            Country(4, "Mexican"),
-            Country(5, "French"),
-            Country(6, "German"),
-            Country(7, "Korean"),
-            Country(8, "Italian"),
+            FilterTypes(0, "African"),
+            FilterTypes(1, "American"),
+            FilterTypes(2, "British"),
+            FilterTypes(3, "Chinese"),
+            FilterTypes(4, "Mexican"),
+            FilterTypes(5, "French"),
+            FilterTypes(6, "German"),
+            FilterTypes(7, "Korean"),
+            FilterTypes(8, "Italian"),
 
             )
         val intolerances = listOf(
-            Intolerances(0, "Dairy"),
-            Intolerances(1, "Egg"),
-            Intolerances(2, "Gluten"),
-            Intolerances(3, "Grain"),
-            Intolerances(4, "Peanut"),
-            Intolerances(5, "Soy"),
-            Intolerances(6, "Tree Nut"),
+            FilterTypes(0, "Dairy"),
+            FilterTypes(1, "Egg"),
+            FilterTypes(2, "Gluten"),
+            FilterTypes(3, "Grain"),
+            FilterTypes(4, "Peanut"),
+            FilterTypes(5, "Soy"),
+            FilterTypes(6, "Tree Nut"),
         )
         val mealTypes = listOf(
-            MealTypes(0, "Breakfast"),
-            MealTypes(1, "Appetizer"),
-            MealTypes(2, "Soup"),
-            MealTypes(3, "Salad"),
-            MealTypes(4, "Bread"),
-            MealTypes(5, "Drink"),
-            MealTypes(6, "Sweets"),
-            MealTypes(7, "Main Course"),
+            FilterTypes(0, "Breakfast"),
+            FilterTypes(1, "Appetizer"),
+            FilterTypes(2, "Soup"),
+            FilterTypes(3, "Salad"),
+            FilterTypes(4, "Bread"),
+            FilterTypes(5, "Drink"),
+            FilterTypes(6, "Sweets"),
+            FilterTypes(7, "Main Course"),
 
             )
         return if (mealType) {

@@ -51,16 +51,18 @@
                 tools:ignore="ContentDescription" />
 
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <EditText
                 android:id="@+id/searchEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="24dp"
                 android:background="@android:color/transparent"
+                android:focusable="auto"
+                android:hint="@string/search"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:paddingTop="8dp"
-                android:textAppearance="?attr/textAppearanceHeadline6"
                 app:layout_constraintBottom_toBottomOf="@id/searchImageView"
                 app:layout_constraintEnd_toEndOf="@id/cancelSearch"
                 app:layout_constraintStart_toEndOf="@id/searchImageView"
@@ -100,7 +102,6 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

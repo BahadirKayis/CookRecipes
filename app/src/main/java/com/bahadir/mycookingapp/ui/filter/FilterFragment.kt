@@ -15,10 +15,6 @@ import com.bahadir.mycookingapp.common.viewBinding
 import com.bahadir.mycookingapp.data.model.local.CustomData
 import com.bahadir.mycookingapp.data.model.remote.filter.Filter
 import com.bahadir.mycookingapp.databinding.FragmentFilterBinding
-import com.bahadir.mycookingapp.ui.filter.adapter.CountryAdapter
-import com.bahadir.mycookingapp.ui.filter.adapter.DietsAdapter
-import com.bahadir.mycookingapp.ui.filter.adapter.IntolerancesAdapter
-import com.bahadir.mycookingapp.ui.filter.adapter.MealTypeAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -28,10 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
     private val binding by viewBinding(FragmentFilterBinding::bind)
-    private lateinit var adapterDiet: DietsAdapter
-    private lateinit var adapterCountry: CountryAdapter
-    private lateinit var adapterIntolerance: IntolerancesAdapter
-    private var adapterMealType: MealTypeAdapter? = null
+    private lateinit var adapter: FilterTypeAdapter
     private val spanCount: Int = 3
     private lateinit var returnFilterModel: Filter
     private val args: FilterFragmentArgs by navArgs()
@@ -66,22 +59,45 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
 
         with(binding)
         {
-            adapterDiet = DietsAdapter(returnFilterModel.diet)
-            dietRecyclerView.adapter = adapterDiet
-            dietRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
 
-            adapterCountry = CountryAdapter(returnFilterModel.country)
-            countryRecyclerView.adapter = adapterCountry
-            countryRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+            adapter = FilterTypeAdapter(returnFilterModel.diet).also {
 
-            adapterIntolerance = IntolerancesAdapter(returnFilterModel.intolerances)
-            intoleranceRecyclerView.adapter = adapterIntolerance
-            intoleranceRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+                dietRecyclerView.adapter = it
+                dietRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+                it.listHigh = { highDiet ->
+                    returnFilterModel.diet = highDiet
+
+                }
+            }
+            adapter = FilterTypeAdapter(returnFilterModel.country).also {
+
+                countryRecyclerView.adapter = it
+                countryRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+                it.listHigh = { highDiet ->
+                    returnFilterModel.country = highDiet
+
+                }
+            }
+            adapter = FilterTypeAdapter(returnFilterModel.intolerances).also {
+
+                intoleranceRecyclerView.adapter = it
+                intoleranceRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+                it.listHigh = { highDiet ->
+                    returnFilterModel.intolerances = highDiet
+
+                }
+            }
+
 
             returnFilterModel.mealTypes?.let {
-                adapterMealType = MealTypeAdapter(it)
-                mealTypeRecyclerView.adapter = adapterMealType
+                adapter = FilterTypeAdapter(it)
+                mealTypeRecyclerView.adapter = adapter
                 mealTypeRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+
+                adapter.listHigh = { highMealType ->
+                    returnFilterModel.mealTypes = highMealType
+
+                }
             } ?: run {
                 mealTypeText.gone()
                 mealTypeRecyclerView.gone()
@@ -93,23 +109,6 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
     }
 
     private fun adapterUnit() {
-        adapterDiet.listHigh = { highDiet ->
-            returnFilterModel.diet = highDiet
-
-        }
-        adapterCountry.listHigh = { highCountry ->
-            returnFilterModel.country = highCountry
-
-        }
-        adapterIntolerance.listHigh = { highIntolerance ->
-            returnFilterModel.intolerances = highIntolerance
-
-        }
-
-        adapterMealType?.listHigh = { highMealType ->
-            returnFilterModel.mealTypes = highMealType
-
-        }
 
 
     }

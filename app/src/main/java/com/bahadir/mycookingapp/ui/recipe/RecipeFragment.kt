@@ -43,7 +43,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
                         }
                         is Resource.Success -> {
                             binding.animLoading.gone()
-                            Log.i("recs", response.data.toString())
                             loadRecipe(response.data)
                         }
                         is Resource.Error -> {
@@ -74,7 +73,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
                     when (response) {
 
                         is Resource.Loading -> {
-                            Log.e("collectDataİs-", "loading")
+
                         }
 
                         is Resource.Success -> {
@@ -88,7 +87,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
                             }
                         }
                         is Resource.Error -> {
-                            Log.e("collectDataİs-", "error")
+
                         }
                     }
 
@@ -151,13 +150,13 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
 
                         true
                     }
-                    R.id.shareOtherApp -> {
-                        shareOtherApp(
-
-                            recipe.title, recipe.sourceUrl
-                        )
-                        true
-                    }
+//                    R.id.shareOtherApp -> {
+//                        shareOtherApp(
+//
+//                            recipe.title, recipe.sourceUrl
+//                        )
+//                        true
+//                    }
                     else -> false
                 }
             }
