@@ -16,7 +16,7 @@
     <item
         android:id="@+id/favoriteFragment"
         android:icon="@drawable/ic_baseline_star_24"
-        android:title="Notifications"
+        android:title="Favorite"
         tools:ignore="HardcodedText" />
 
 

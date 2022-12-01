@@ -40,7 +40,7 @@
     <color name="filter_title">#409543</color>
     <color name="filter_item_text_color">#E48902</color>
     <color name="filter_cardView_bg">#68E1E0DE</color>
-
+    <color name="linkColor">#0669AC</color>
 
 
 </resources>

@@ -6,7 +6,6 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bahadir.mycookingapp.R
-import com.bahadir.mycookingapp.common.gone
 import com.bahadir.mycookingapp.common.viewBinding
 import com.bahadir.mycookingapp.databinding.FragmentSplashBinding
 import kotlinx.coroutines.CoroutineScope
@@ -35,8 +34,9 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
             )
 
             delay(300)
-            binding.animationLotti.gone()
             findNavController().navigate(R.id.action_splashFragment_to_randomFoodFragment)
+
+
         }
 
 

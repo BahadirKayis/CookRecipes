@@ -6,5 +6,5 @@ import javax.inject.Inject
 data class FavoriteUseCase @Inject constructor(
     val addRecipe: AddRecipe,
     val deleteRecipe: DeleteRecipe,
-    val getAllRecipe: GetAllRecipe
+    val getFavoriteRecipes: GetFavoriteRecipes
 )

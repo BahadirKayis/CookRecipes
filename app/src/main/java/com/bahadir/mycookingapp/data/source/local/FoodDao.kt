@@ -17,7 +17,7 @@ interface FoodDao {
     suspend fun deleteRecipe(recipeId: Int)
 
     @Query("SELECT * FROM recipe")
-    suspend fun allRecipe(): List<RecipeUI>
+    suspend fun getFavoriteRecipes(): List<RecipeUI>
 
     @Delete
     suspend fun deleteRecipeFavorite(recipe: RecipeUI)

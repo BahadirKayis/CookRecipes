@@ -30,19 +30,16 @@ class FavoriteViewModel @Inject constructor(private val favoriteUseCase: Favorit
     val deleteRecipe
         get() = _deleteRecipe.asStateFlow()
 
-    init {
-        getAllRecipe()
-    }
 
-    private fun getAllRecipe() = viewModelScope.launch {
-        favoriteUseCase.getAllRecipe.invoke().collect {
+     fun getFavoriteRecipes() = viewModelScope.launch {
+        favoriteUseCase.getFavoriteRecipes.invoke().collect {
             _getAllRecipe.emit(it)
         }
     }
 
     fun onUndoRecipe(recipe: RecipeUI) = viewModelScope.launch {
         favoriteUseCase.addRecipe.invoke(recipe)
-        getAllRecipe()
+        getFavoriteRecipes()
 
 
     }
@@ -50,7 +47,7 @@ class FavoriteViewModel @Inject constructor(private val favoriteUseCase: Favorit
     fun deleteRecipe(recipe: RecipeUI) = viewModelScope.launch {
         favoriteUseCase.deleteRecipe.invoke(recipe)
         tasksEventChannel.send(RecipeEvent.ShowUndoDeleteRecipeMessage(recipe))
-        getAllRecipe()
+        getFavoriteRecipes()
 
     }
 

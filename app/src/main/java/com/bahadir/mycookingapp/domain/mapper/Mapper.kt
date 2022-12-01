@@ -1,4 +1,4 @@
-package com.bahadir.mycookingapp.data.mapper
+package com.bahadir.mycookingapp.domain.mapper
 
 import com.bahadir.mycookingapp.common.idToImageUrl
 import com.bahadir.mycookingapp.data.model.remote.ExtendedIngredient
@@ -53,7 +53,11 @@ fun Recipe.recipeUI() = RecipeUI(
     veryPopular = veryPopular,
     cheap = cheap,
     extendedIngredients = extendedIngredients.ingredientUI(),
-    step = analyzedInstructions?.get(0)?.steps?.stepUI(),
+    step = if (analyzedInstructions.isNotEmpty()) {
+        analyzedInstructions[0].steps.stepUI()
+    } else {
+        emptyList()
+    },
     healthScore = healthScore,
     image = image,
     sourceUrl = sourceUrl,

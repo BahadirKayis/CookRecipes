@@ -26,8 +26,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getFavoriteRecipes()
         collectData()
-        setUpRecyclerView()
+        initUI()
     }
 
     private fun collectData() {
@@ -66,7 +67,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite),
         }
     }
 
-    private fun setUpRecyclerView() {
+    private fun initUI() {
         binding.recipeRecycler.adapter = adapter
         val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

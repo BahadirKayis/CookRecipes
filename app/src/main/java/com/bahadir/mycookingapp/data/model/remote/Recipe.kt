@@ -12,7 +12,7 @@ data class Recipe(
     @SerializedName("aggregateLikes")
     val aggregateLikes: Int,
     @SerializedName("analyzedInstructions")
-    val analyzedInstructions: List<AnalyzedInstruction>?,
+    val analyzedInstructions: List<AnalyzedInstruction> = emptyList(),
     @SerializedName("cheap")
     val cheap: Boolean,
     @SerializedName("cookingMinutes")

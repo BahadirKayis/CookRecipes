@@ -15,6 +15,7 @@ import com.bahadir.mycookingapp.databinding.FragmentRecipeBinding
 import com.bahadir.mycookingapp.domain.model.RecipeUI
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.abs
 
 
 @AndroidEntryPoint
@@ -30,8 +31,57 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
 
 
         collectData()
+
     }
 
+    private fun initUI(recipe: RecipeUI) {
+        with(binding) {
+            appbar.addOnOffsetChangedListener { _, verticalOffset ->
+                if (abs(verticalOffset) >= appbar.totalScrollRange) {
+                    //  Collapsed
+                    collapsingToolbar.title = recipe.title
+                    toolbar.visible()
+                } else {
+                    //Expanded
+                    toolbar.gone()
+                    collapsingToolbar.title = ""
+                }
+
+            }
+
+
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+            toolbar.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.saveIcon -> {
+                        isTheRecipeSaved = when (isTheRecipeSaved) {
+                            true -> {
+                                viewModel.deleteRecipe(args.recipeId)
+                                binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_off)
+                                false
+                            }
+                            false -> {
+                                viewModel.addRecipe(recipe)
+                                binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_on)
+                                true
+                            }
+                        }
+
+                        true
+                    }
+                    R.id.shareOtherApp -> {
+                        shareOtherApp(
+                            recipe.title, recipe.sourceUrl
+                        )
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+    }
 
     private fun collectData() {
         with(viewModel) {
@@ -77,7 +127,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
                         }
 
                         is Resource.Success -> {
-                            Log.e("collectDataİs-", response.data.toString())
                             if (response.data) {
                                 isTheRecipeSaved = true
                                 binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_on)
@@ -101,7 +150,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
 
     private fun loadRecipe(recipe: RecipeUI) {
         with(recipe) {
-            toolbar(title, this)
+            initUI(this)
             foodImage(image)
             initializeView(
                 recipe
@@ -125,46 +174,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
 
     }
 
-    private fun toolbar(foodName: String, recipe: RecipeUI) {
-        with(binding) {
-
-            toolbar.title = foodName
-            toolbar.setNavigationOnClickListener {
-                findNavController().popBackStack()
-            }
-            toolbar.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.saveIcon -> {
-                        isTheRecipeSaved = when (isTheRecipeSaved) {
-                            true -> {
-                                viewModel.deleteRecipe(args.recipeId)
-                                binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_off)
-                                false
-                            }
-                            false -> {
-                                viewModel.addRecipe(recipe)
-                                binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_on)
-                                true
-                            }
-                        }
-
-                        true
-                    }
-//                    R.id.shareOtherApp -> {
-//                        shareOtherApp(
-//
-//                            recipe.title, recipe.sourceUrl
-//                        )
-//                        true
-//                    }
-                    else -> false
-                }
-            }
-        }
-
-    }
-
-
     private fun initializeView(
         recipe: RecipeUI,
 
@@ -183,9 +192,11 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
         Log.e("shareOtherApp", "$foodName $url")
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_SUBJECT, foodName)
+        intent.putExtra(Intent.EXTRA_TITLE, foodName)
         intent.putExtra(Intent.EXTRA_TEXT, url)
-        startActivity(Intent.createChooser(intent, "Share Via"))
+
+
+        startActivity(Intent.createChooser(intent, "Share"))
     }
 
     override fun similarRecipeClick(recipeId: Int) {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Cooking App</string>
+    <string name="app_name">Cook Recipes</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="show_more">Show more</string>
     <string name="popular_food">Random Recipe</string>

@@ -2,7 +2,7 @@ package com.bahadir.mycookingapp.ui.menu
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.bahadir.mycookingapp.data.mapper.randomFoodToUI
+import com.bahadir.mycookingapp.domain.mapper.randomFoodToUI
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 import com.bahadir.mycookingapp.domain.source.remote.RemoteDataSource
 
@@ -25,6 +25,7 @@ class Paging(
                 prevKey = if (currentPage == 1) null else -1,
                 nextKey = currentPage.plus(1)
             )
+
 
         } catch (e: Exception) {
             LoadResult.Error(e)

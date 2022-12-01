@@ -34,7 +34,7 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
 
         super.onViewCreated(view, savedInstanceState)
         returnFilterModel = args.filterModel
-        initUi()
+        initUI()
         adapterUnit()
         clickListener()
     }
@@ -47,7 +47,7 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
             }
             filterClear.setOnClickListener {
                 returnFilterModel = CustomData.getFilterModel()
-                initUi()
+                initUI()
             }
             closeButton.setOnClickListener {
                 findNavController().popBackStack()
@@ -55,7 +55,7 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
         }
     }
 
-    private fun initUi() {
+    private fun initUI() {
 
         with(binding)
         {

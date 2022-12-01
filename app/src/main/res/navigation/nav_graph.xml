@@ -14,7 +14,13 @@
             app:argType="string" />
         <action
             android:id="@+id/action_menuFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" />
+            app:destination="@id/recipeFragment"
+            app:popUpTo="@id/menuFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out"/>
         <action
             android:id="@+id/action_menuFragment_to_filterFragment"
             app:destination="@id/filterFragment" />
@@ -27,11 +33,18 @@
 
         <action
             android:id="@+id/action_randomFoodFragment_to_menuFragment"
-
-            app:destination="@id/menuFragment" />
+            app:destination="@id/menuFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_randomFoodFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" />
+            app:destination="@id/recipeFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
@@ -44,10 +57,18 @@
             app:nullable="false" />
         <action
             android:id="@+id/action_recipeFragment_self"
-            app:destination="@id/recipeFragment" />
+            app:destination="@id/recipeFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_recipeFragment_to_menuFragment"
-            app:destination="@id/menuFragment" />
+            app:destination="@id/menuFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
         android:id="@+id/ingredientFragment"
@@ -58,9 +79,7 @@
         android:id="@+id/recipeMadeFragment"
         android:name="com.bahadir.mycookingapp.ui.recipe.recipeismade.RecipeMadeFragment"
         android:label="fragment_recipe_made"
-        tools:layout="@layout/fragment_recipe_made">
-
-    </fragment>
+        tools:layout="@layout/fragment_recipe_made" />
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.bahadir.mycookingapp.ui.favorite.FavoriteFragment"
@@ -74,7 +93,6 @@
         android:id="@+id/searchFragment"
         android:name="com.bahadir.mycookingapp.ui.search.SearchFragment"
         android:label="fragment_search"
-
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_filterFragment"
@@ -85,7 +103,11 @@
             app:nullable="false" />
         <action
             android:id="@+id/action_searchFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" />
+            app:destination="@id/recipeFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <dialog
         android:id="@+id/filterFragment"
@@ -105,12 +127,17 @@
         android:id="@+id/splashFragment"
         android:name="com.bahadir.mycookingapp.ui.splash.SplashFragment"
         android:label="fragment_splash"
-
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_randomFoodFragment"
             app:destination="@id/randomFoodFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out"
             app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
+
     </fragment>
+
 </navigation>

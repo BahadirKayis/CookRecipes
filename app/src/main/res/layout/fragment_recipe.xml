@@ -20,21 +20,19 @@
             android:layout_height="250dp"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/toolbar"
+
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white">
 
                 <ImageView
                     android:id="@+id/foodImage"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="50dp"
-                    android:scaleType="fitCenter"
+                    android:layout_height="200dp"
+                    android:scaleType="fitXY"
                     android:src="@drawable/serving"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -130,6 +128,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.MaterialComponents"
                 app:layout_collapseMode="pin"
+                android:visibility="gone"
                 app:menu="@menu/recipe_detail_menu"
                 app:navigationIcon="@drawable/ic_arrow_back" />
 

@@ -31,7 +31,7 @@ data class RecipeUI(
 
     val extendedIngredients: List<IngredientUI>,
 
-    val step: List<StepUI>?,
+    val step: List<StepUI>? = null,
 
     val healthScore: Int,
 
@@ -39,7 +39,7 @@ data class RecipeUI(
 
     val sourceUrl: String,
 
-    val instructions: String,
+    val instructions: String?= null,
 
     var imageFilePath: String?,
 ) : Parcelable

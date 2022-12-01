@@ -53,7 +53,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
 
                 @Suppress("DEPRECATION") bundle.getParcelable("filterList")
             }
-            viewModel.getMenuCategoryItem(filterModelController())
+            viewModel.getMenuCategoryItem(filterModelController(), args.categoryName)
         }
     }
 

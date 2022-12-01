@@ -29,17 +29,18 @@ class RecipeMadeFragment : Fragment(R.layout.fragment_recipe_made) {
             @Suppress("DEPRECATION")
             checkNotNull(arguments?.getParcelable("recipe"))
         }
+        step.step?.let {
+            if (step.step.isNotEmpty()) {
 
-        if (step.step != null) {
+                val adapter = StepAdapter(step.step)
+                binding.stepRecycler.adapter = adapter
+            } else {
+                binding.stepRecycler.gone()
+                binding.image.visible()
+                binding.instructions.visible()
+                binding.instructions.text = step.instructions
 
-            val adapter = StepAdapter(step.step)
-            binding.stepRecycler.adapter = adapter
-        } else {
-            binding.stepRecycler.gone()
-            binding.image.visible()
-            binding.instructions.visible()
-            binding.instructions.text = step.instructions
-
+            }
         }
 
     }
