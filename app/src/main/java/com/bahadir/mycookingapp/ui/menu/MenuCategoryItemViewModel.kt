@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MenuCategoryItemViewModel @Inject constructor(
-    private val getMenuUseCase: GetMenuCategory,savedStateHandle: SavedStateHandle
+    private val getMenuUseCase: GetMenuCategory, private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private var _getMenu = MutableStateFlow<PagingData<RandomFoodRecipeUI>>(PagingData.empty())
@@ -26,20 +26,19 @@ class MenuCategoryItemViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<String>(STATE_KEY_CATEGORY_NAME)?.let {
-            getMenuCategoryItem(key = it)
+            getMenuCategoryItem()
         }
     }
 
     fun getMenuCategoryItem(
         filter: Filter? = null,
-        key: String
-    ) = viewModelScope.launch {
-         //cachedIn is used to cache the data in the viewModelScope
-        //kullanmadigimda  bottomnavigationdan diğer fragmentlara gittiğimde bacpress yapınca patlıyor
-        getMenuUseCase.invoke(20, key.lowercase(), filter).cachedIn(viewModelScope).collect {
-            _getMenu.emit(it)
-        }
 
+        ) = viewModelScope.launch {
+        savedStateHandle.get<String>(STATE_KEY_CATEGORY_NAME)?.let { key ->
+            getMenuUseCase.invoke(20, key.lowercase(), filter).cachedIn(viewModelScope).collect {
+                _getMenu.emit(it)
+            }
+        }
     }
 }
 

@@ -15,10 +15,12 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.data.model.remote.AnalyzedInstruction
 import com.bahadir.mycookingapp.data.model.remote.filter.FilterTypes
+import com.bahadir.mycookingapp.domain.mapper.stepUI
+import com.bahadir.mycookingapp.domain.model.StepUI
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -63,15 +65,20 @@ fun View.visibleOrGone(boolean: Boolean) {
 
 }
 
+fun List<AnalyzedInstruction>.emptyControl(): List<StepUI> {
+    return if (this.isNotEmpty()) {
+        this[0].steps.stepUI()
+    } else {
+        emptyList()
+    }
+
+}
+
 fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
 }
 
-
-fun View.snackBar(text: String, duration: Int) {
-    Snackbar.make(this, text, duration).show()
-}
 
 fun Context.circularProgressDrawable(): Drawable {
     return CircularProgressDrawable(this).apply {

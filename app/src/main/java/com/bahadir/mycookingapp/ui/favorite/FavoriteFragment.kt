@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.Resource
-import com.bahadir.mycookingapp.common.SwipeToDeleteCallback
 import com.bahadir.mycookingapp.common.viewBinding
 import com.bahadir.mycookingapp.databinding.FragmentFavoriteBinding
 import com.google.android.material.snackbar.Snackbar

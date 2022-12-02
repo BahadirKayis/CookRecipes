@@ -31,7 +31,6 @@ class FoodRepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val app: Application
 ) : FoodRepository {
-
     override fun getPopularity(count: Int): Flow<Resource<List<RandomFoodRecipeUI>>> = flow {
         emit(Resource.Loading)
         val response = try {
@@ -82,6 +81,8 @@ class FoodRepositoryImpl(
         val imagePath = recipe.id.toString() + recipe.title + ".png"
 
         recipe.imageFilePath = app.imageDownloadSaveFile(imagePath, recipe.image)
+
+
         localDataSource.addRecipe(recipe)
 
     }
@@ -128,24 +129,29 @@ class FoodRepositoryImpl(
     ): Flow<Resource<List<SearchResult>>> = flow {
 
         emit(Resource.Loading)
-        with(filterModel) {
-            val diet = diet.pars()
-            val country = country.pars()
-            val intolerances = intolerances.pars()
-            val mealType = mealTypes?.pars()
 
+        val diet: String
+        val country: String
+        val intolerances: String
+        val mealType: String?
 
-            val response = try {
-                remoteDataSource.searchRecipe(
-                    query, diet, country, intolerances, mealType ?: ""
-                )
-            } catch (e: Throwable) {
-                emit(Resource.Error(e))
-                null
-            }
-
-            response?.let { emit(Resource.Success(it.results)) }
+        filterModel.apply {
+            diet = this.diet.pars()
+            country = this.country.pars()
+            intolerances = this.intolerances.pars()
+            mealType = this.mealTypes?.pars()
         }
+        val response = try {
+            remoteDataSource.searchRecipe(
+                query, diet, country, intolerances, mealType ?: ""
+            )
+        } catch (e: Throwable) {
+            emit(Resource.Error(e))
+            null
+        }
+
+        response?.let { emit(Resource.Success(it.results)) }
+
     }
 
     override fun getMenuCategory(
@@ -157,7 +163,7 @@ class FoodRepositoryImpl(
                 ?: run { "" }
         val categoryFilter = "$category,${filterType}"
 
-        Log.e("TAG", "getMenuCategory: $categoryFilter")
+        Log.i("getMenuCategory", "Filter: $categoryFilter")
 
         Pager(config = PagingConfig(size, maxSize = 100, enablePlaceholders = false),
             pagingSourceFactory = {

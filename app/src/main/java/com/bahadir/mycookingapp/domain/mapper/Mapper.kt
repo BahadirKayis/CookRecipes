@@ -1,5 +1,6 @@
 package com.bahadir.mycookingapp.domain.mapper
 
+import com.bahadir.mycookingapp.common.emptyControl
 import com.bahadir.mycookingapp.common.idToImageUrl
 import com.bahadir.mycookingapp.data.model.remote.ExtendedIngredient
 import com.bahadir.mycookingapp.data.model.remote.Recipe
@@ -53,11 +54,7 @@ fun Recipe.recipeUI() = RecipeUI(
     veryPopular = veryPopular,
     cheap = cheap,
     extendedIngredients = extendedIngredients.ingredientUI(),
-    step = if (analyzedInstructions.isNotEmpty()) {
-        analyzedInstructions[0].steps.stepUI()
-    } else {
-        emptyList()
-    },
+    step = analyzedInstructions.emptyControl(),
     healthScore = healthScore,
     image = image,
     sourceUrl = sourceUrl,

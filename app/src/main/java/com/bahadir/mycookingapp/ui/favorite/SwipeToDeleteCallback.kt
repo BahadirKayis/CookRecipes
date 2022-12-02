@@ -1,4 +1,4 @@
-package com.bahadir.mycookingapp.common
+package com.bahadir.mycookingapp.ui.favorite
 
 import android.content.Context
 import android.graphics.*
