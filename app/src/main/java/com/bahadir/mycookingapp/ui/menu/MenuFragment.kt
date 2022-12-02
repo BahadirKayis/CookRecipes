@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.gone
 import com.bahadir.mycookingapp.common.viewBinding
 import com.bahadir.mycookingapp.data.model.local.CustomData
 import com.bahadir.mycookingapp.data.model.remote.filter.Filter
@@ -53,7 +54,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
 
                 @Suppress("DEPRECATION") bundle.getParcelable("filterList")
             }
-            viewModel.getMenuCategoryItem(filterModelController(), args.categoryName)
+            viewModel.getMenuCategoryItem(filterModelController())
         }
     }
 
@@ -74,6 +75,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
         with(viewModel) {
             viewLifecycleOwner.lifecycleScope.launchWhenResumed {
                 getMenu.collect {
+                    binding.animLoading.gone()
                     binding.recyclerMenu.adapter = adapter
                     adapter.submitData(lifecycle, it)
                 }
