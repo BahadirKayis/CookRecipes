@@ -4,6 +4,7 @@ package com.bahadir.mycookingapp.ui.recipe
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bahadir.mycookingapp.common.ClickToAny
 
 import com.bahadir.mycookingapp.common.glideImage
 import com.bahadir.mycookingapp.common.titleCount
@@ -13,7 +14,7 @@ import com.bahadir.mycookingapp.domain.model.SimilarRecipeUI
 
 class SimilarRecipeAdapter(
     private val food: List<SimilarRecipeUI>,
-    private val recipeInterface: SimilarRecipeAdapterInterface
+    private val recipeInterface: ClickToAny
 ) :
     RecyclerView.Adapter<SimilarRecipeAdapter.RandomFoodViewHolder>() {
     inner class RandomFoodViewHolder(private val binding: ItemRandomRecipeBinding) :
@@ -23,7 +24,7 @@ class SimilarRecipeAdapter(
                 foodImage.glideImage(item.image!!)
                 title.text = item.title.titleCount(20)
                 itemView.setOnClickListener {
-                    recipeInterface.similarRecipeClick(item.id)
+                    recipeInterface.onClickToAny(id=item.id)
                 }
             }
         }
@@ -44,7 +45,5 @@ class SimilarRecipeAdapter(
         return food.size
     }
 
-    interface SimilarRecipeAdapterInterface {
-        fun similarRecipeClick(recipeId: Int)
-    }
+
 }

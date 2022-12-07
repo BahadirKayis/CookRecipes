@@ -8,13 +8,14 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.ClickToAny
 import com.bahadir.mycookingapp.common.glideImage
 import com.bahadir.mycookingapp.databinding.ItemMenuCategoryListBinding
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 
 
 class MenuCategoryItemAdapter(
-    private val menuCategoryInterface: MenuCategoryInterface
+    private val menuCategoryInterface: ClickToAny
 ) :
     PagingDataAdapter<RandomFoodRecipeUI, MenuCategoryItemAdapter.ViewHolder>(diffCallBack) {
 
@@ -46,7 +47,7 @@ class MenuCategoryItemAdapter(
                         }
 
                         itemView.setOnClickListener {
-                            menuCategoryInterface.menuCategoryToRecipe(id)
+                            menuCategoryInterface.onClickToAny(id = id)
                         }
                     }
                 }
@@ -86,7 +87,5 @@ class MenuCategoryItemAdapter(
         }
     }
 
-    interface MenuCategoryInterface {
-        fun menuCategoryToRecipe(id: Int)
-    }
+
 }

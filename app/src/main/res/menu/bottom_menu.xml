@@ -6,16 +6,19 @@
     <item
         android:id="@+id/searchFragment"
         android:icon="@drawable/ic_baseline_search_24"
+        android:menuCategory="secondary"
         android:title="Search"
         tools:ignore="HardcodedText" />
     <item
         android:id="@+id/randomFoodFragment"
         android:icon="@drawable/ic_baseline_home_24"
+        android:menuCategory="secondary"
         android:title="Home"
         tools:ignore="HardcodedText" />
     <item
         android:id="@+id/favoriteFragment"
         android:icon="@drawable/ic_baseline_star_24"
+        android:menuCategory="secondary"
         android:title="Favorite"
         tools:ignore="HardcodedText" />
 

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.ClickToAny
 import com.bahadir.mycookingapp.common.glideImage
 import com.bahadir.mycookingapp.data.model.remote.search.SearchResult
 import com.bahadir.mycookingapp.databinding.ItemSearchRecipeBinding
@@ -13,7 +14,7 @@ import com.bahadir.mycookingapp.databinding.ItemSearchRecipeBinding
 
 class SearchAdapter(
     private val searchRecipe: List<SearchResult>,
-    private val searchAdapterInterface: SearchAdapterInterface
+    private val searchAdapterInterface: ClickToAny
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemSearchRecipeBinding) :
@@ -31,7 +32,7 @@ class SearchAdapter(
 
 
                         itemView.setOnClickListener {
-                            searchAdapterInterface.searchToRecipe(id)
+                            searchAdapterInterface.onClickToAny(id=id)
                         }
                     }
                 }
@@ -56,9 +57,7 @@ class SearchAdapter(
         return searchRecipe.size
     }
 
-    interface SearchAdapterInterface {
-        fun searchToRecipe(id: Int)
-    }
+
 }
 
 

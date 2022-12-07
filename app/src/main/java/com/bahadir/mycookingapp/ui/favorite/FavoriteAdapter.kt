@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.ClickToAny
 import com.bahadir.mycookingapp.common.glideImage
 import com.bahadir.mycookingapp.databinding.ItemFavoriteRecipeBinding
 import com.bahadir.mycookingapp.domain.model.RecipeUI
 
 
-class FavoriteAdapter(private val favoriteInterface: FavoriteAdapterInterface) :
+class FavoriteAdapter(private val favoriteInterface: ClickToAny) :
     ListAdapter<RecipeUI, FavoriteAdapter.ViewHolder>(FavoriteItemCallBack()) {
 
 
@@ -29,7 +30,7 @@ class FavoriteAdapter(private val favoriteInterface: FavoriteAdapterInterface) :
                 foodImage.glideImage(item.imageFilePath)
                 recipeText.text = item.instructions
                 itemView.setOnClickListener {
-                    favoriteInterface.recipeId(item.id)
+                    favoriteInterface.onClickToAny(id=item.id)
                 }
             }
         }
@@ -58,8 +59,6 @@ class FavoriteAdapter(private val favoriteInterface: FavoriteAdapterInterface) :
         }
     }
 
-    interface FavoriteAdapterInterface {
-        fun recipeId(recipeId: Int)
-    }
+
 
 }
