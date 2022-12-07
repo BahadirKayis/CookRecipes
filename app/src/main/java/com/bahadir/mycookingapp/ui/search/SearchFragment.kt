@@ -19,7 +19,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchAdapterInterface {
+class SearchFragment : Fragment(R.layout.fragment_search), ClickToAny {
 
     private val binding by viewBinding(FragmentSearchBinding::bind)
     private var filterModel: Filter? = null
@@ -152,12 +152,14 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchA
     }
 
 
-    override fun searchToRecipe(id: Int) {
-        findNavController().navigate(
-            SearchFragmentDirections.actionSearchFragmentToRecipeFragment(
-                id
+    override fun onClickToAny(id: Int?, title: String?) {
+        id?.let {
+            findNavController().navigate(
+                SearchFragmentDirections.actionSearchFragmentToRecipeFragment(
+                    id
+                )
             )
-        )
+        }
     }
 
 

@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.ClickToAny
 import com.bahadir.mycookingapp.common.gone
 import com.bahadir.mycookingapp.common.viewBinding
 import com.bahadir.mycookingapp.data.model.local.CustomData
@@ -22,7 +23,7 @@ import java.util.*
 
 @AndroidEntryPoint
 class MenuFragment : Fragment(R.layout.fragment_menu),
-    MenuCategoryItemAdapter.MenuCategoryInterface {
+    ClickToAny {
     private val binding by viewBinding(FragmentMenuBinding::bind)
     private val adapter: MenuCategoryItemAdapter by lazy { MenuCategoryItemAdapter(this) }
     private val viewModel: MenuCategoryItemViewModel by viewModels()
@@ -42,7 +43,6 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
                 "$it Recipe".also { its -> binding.categoryName.text = its }
             }
         }
-
 
     }
 
@@ -94,7 +94,14 @@ class MenuFragment : Fragment(R.layout.fragment_menu),
         }
     }
 
-    override fun menuCategoryToRecipe(id: Int) {
-        findNavController().navigate(MenuFragmentDirections.actionMenuFragmentToRecipeFragment(id))
+
+    override fun onClickToAny(id: Int?, title: String?) {
+        id?.let {
+            findNavController().navigate(
+                MenuFragmentDirections.actionMenuFragmentToRecipeFragment(
+                    it
+                )
+            )
+        }
     }
 }

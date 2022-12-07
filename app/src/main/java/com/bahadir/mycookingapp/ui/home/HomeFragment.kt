@@ -9,17 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bahadir.mycookingapp.R
-import com.bahadir.mycookingapp.common.Resource
-import com.bahadir.mycookingapp.common.gone
-import com.bahadir.mycookingapp.common.viewBinding
-import com.bahadir.mycookingapp.common.visible
+import com.bahadir.mycookingapp.common.*
 import com.bahadir.mycookingapp.data.model.local.CustomData
 import com.bahadir.mycookingapp.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home), MenuAdapter.MenuAdapterInterface,
-    RandomAdapter.RandomAdapterInterface {
+class HomeFragment : Fragment(R.layout.fragment_home), ClickToAny {
     private val binding by viewBinding(FragmentHomeBinding::bind)
     private val viewModel: HomeViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,17 +63,21 @@ class HomeFragment : Fragment(R.layout.fragment_home), MenuAdapter.MenuAdapterIn
         }
     }
 
-    override fun menuToCategories(category: String) {
-        findNavController().navigate(
-            HomeFragmentDirections.actionRandomFoodFragmentToMenuFragment(category)
-        )
-    }
 
-    override fun randomToRecipe(id: Int) {
-        findNavController().navigate(
-            HomeFragmentDirections.actionRandomFoodFragmentToRecipeFragment(
-                id
+    override fun onClickToAny(id: Int?, title: String?) {
+        title?.let {
+            findNavController().navigate(
+                HomeFragmentDirections.actionRandomFoodFragmentToMenuFragment(it)
             )
-        )
+        } ?: run {
+            id?.let {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionRandomFoodFragmentToRecipeFragment(
+                        it
+                    )
+                )
+            }
+        }
+
     }
 }

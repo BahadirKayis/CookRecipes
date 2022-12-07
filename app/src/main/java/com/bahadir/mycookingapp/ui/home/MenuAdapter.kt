@@ -7,6 +7,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.ClickToAny
 import com.bahadir.mycookingapp.common.circularProgressDrawable
 import com.bahadir.mycookingapp.data.model.Menu
 import com.bahadir.mycookingapp.databinding.ItemMenuCategoryBinding
@@ -14,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 
-class MenuAdapter(private val food: List<Menu>, private val menuInterface: MenuAdapterInterface) :
+class MenuAdapter(private val food: List<Menu>, private val menuInterface: ClickToAny) :
     RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemMenuCategoryBinding) :
@@ -34,7 +35,7 @@ class MenuAdapter(private val food: List<Menu>, private val menuInterface: MenuA
                     .into(foodImage)
 
                 itemView.setOnClickListener {
-                    menuInterface.menuToCategories(item.title)
+                    menuInterface.onClickToAny(title = item.title)
                 }
                 cardView.setBackgroundColor(
                     ContextCompat.getColor(
@@ -60,9 +61,5 @@ class MenuAdapter(private val food: List<Menu>, private val menuInterface: MenuA
 
     override fun getItemCount(): Int {
         return food.size
-    }
-
-    interface MenuAdapterInterface {
-        fun menuToCategories(category: String)
     }
 }

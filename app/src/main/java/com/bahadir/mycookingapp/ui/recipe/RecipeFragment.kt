@@ -20,7 +20,7 @@ import kotlin.math.abs
 
 @AndroidEntryPoint
 class RecipeFragment : Fragment(R.layout.fragment_recipe),
-    SimilarRecipeAdapter.SimilarRecipeAdapterInterface {
+   ClickToAny{
     private val binding by viewBinding(FragmentRecipeBinding::bind)
     private val viewModel: RecipeViewModel by viewModels()
     private val args: RecipeFragmentArgs by navArgs()
@@ -199,8 +199,12 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
         startActivity(Intent.createChooser(intent, "Share"))
     }
 
-    override fun similarRecipeClick(recipeId: Int) {
-        findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentSelf(recipeId))
+
+
+    override fun onClickToAny(id: Int?, title: String?) {
+     id?.let {
+        findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentSelf(it))
+     }
     }
 
 }
