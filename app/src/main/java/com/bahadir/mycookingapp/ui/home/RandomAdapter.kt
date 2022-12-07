@@ -4,6 +4,7 @@ package com.bahadir.mycookingapp.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bahadir.mycookingapp.common.ClickToAny
 import com.bahadir.mycookingapp.common.glideImage
 import com.bahadir.mycookingapp.common.titleCount
 import com.bahadir.mycookingapp.databinding.ItemRandomRecipeBinding
@@ -12,7 +13,7 @@ import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 
 class RandomAdapter(
     private val food: List<RandomFoodRecipeUI>,
-    private val randomAdapter: RandomAdapterInterface
+    private val randomAdapter: ClickToAny
 ) :
     RecyclerView.Adapter<RandomAdapter.RandomFoodViewHolder>() {
     inner class RandomFoodViewHolder(private val binding: ItemRandomRecipeBinding) :
@@ -24,7 +25,7 @@ class RandomAdapter(
                     foodImage.glideImage(image)
                     binding.title.text = title.titleCount(20)
                     itemView.setOnClickListener {
-                        randomAdapter.randomToRecipe(id)
+                        randomAdapter.onClickToAny(id = id)
                     }
 
                 }
@@ -47,7 +48,5 @@ class RandomAdapter(
         return food.size
     }
 
-    interface RandomAdapterInterface {
-        fun randomToRecipe(id: Int)
-    }
+
 }

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
+import com.bahadir.mycookingapp.common.ClickToAny
 import com.bahadir.mycookingapp.common.Resource
 import com.bahadir.mycookingapp.common.viewBinding
 import com.bahadir.mycookingapp.databinding.FragmentFavoriteBinding
@@ -17,8 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteFragment : Fragment(R.layout.fragment_favorite),
-    FavoriteAdapter.FavoriteAdapterInterface {
+class FavoriteFragment : Fragment(R.layout.fragment_favorite), ClickToAny {
     private val binding by viewBinding(FragmentFavoriteBinding::bind)
     private val viewModel: FavoriteViewModel by viewModels()
     private val adapter: FavoriteAdapter by lazy { FavoriteAdapter(this) }
@@ -78,13 +78,16 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite),
         itemTouchHelper.attachToRecyclerView(binding.recipeRecycler)
     }
 
-    override fun recipeId(recipeId: Int) {
-        findNavController().navigate(
-            FavoriteFragmentDirections.actionFavoriteFragmentToRecipeFragment(
-                recipeId
+
+    override fun onClickToAny(id: Int?, title: String?) {
+        id?.let {
+            findNavController().navigate(
+                FavoriteFragmentDirections.actionFavoriteFragmentToRecipeFragment(
+                    it
+                )
             )
-        )
+        }
     }
-
-
 }
+
+
