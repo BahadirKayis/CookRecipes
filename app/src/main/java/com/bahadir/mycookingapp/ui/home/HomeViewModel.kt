@@ -13,12 +13,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val getPopularity: GetPopularity) : ViewModel() {
-
     private val _randomPopularity =
         MutableStateFlow<Resource<List<RandomFoodRecipeUI>>>(Resource.Loading)
     val randomPopularity
         get() = _randomPopularity.asStateFlow()
-
 
     init {
         getPopularity()
@@ -29,6 +27,5 @@ class HomeViewModel @Inject constructor(private val getPopularity: GetPopularity
             _randomPopularity.emit(it)
         }
     }
-
 
 }

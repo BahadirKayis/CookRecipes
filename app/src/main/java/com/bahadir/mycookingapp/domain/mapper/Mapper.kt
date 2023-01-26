@@ -1,7 +1,7 @@
 package com.bahadir.mycookingapp.domain.mapper
 
-import com.bahadir.mycookingapp.common.emptyControl
-import com.bahadir.mycookingapp.common.idToImageUrl
+import com.bahadir.mycookingapp.common.extensions.emptyControl
+import com.bahadir.mycookingapp.common.extensions.idToImageUrl
 import com.bahadir.mycookingapp.data.model.remote.ExtendedIngredient
 import com.bahadir.mycookingapp.data.model.remote.Recipe
 import com.bahadir.mycookingapp.data.model.remote.SimilarItem
@@ -48,7 +48,7 @@ fun Recipe.recipeUI() = RecipeUI(
     title = title,
     dairyFree = dairyFree,
     glutenFree = glutenFree,
-    aggregateLikes = aggregateLikes,
+    aggregateLikes = aggregateLikes ?: 0,
     veryHealthy = veryHealthy,
     vegetarian = vegetarian,
     veryPopular = veryPopular,

@@ -38,7 +38,6 @@ class RecipeViewModel @Inject constructor(
             getRecipe(it)
             isRecipeSaved(it)
         }
-
     }
 
     private fun getRecipe(id: Int) = viewModelScope.launch {
@@ -51,7 +50,6 @@ class RecipeViewModel @Inject constructor(
         recipeUseCase.getSimilarRecipe.invoke(id, 15).collect {
             _similarRecipe.emit(it)
         }
-
     }
 
     private fun isRecipeSaved(recipeId: Int) = viewModelScope.launch {
@@ -62,15 +60,12 @@ class RecipeViewModel @Inject constructor(
 
     fun addRecipe(recipe: RecipeUI) = viewModelScope.launch {
         recipeUseCase.addRecipe.invoke(recipe)
-
         isRecipeSaved(recipe.id)
     }
-
 
     fun deleteRecipe(recipeId: Int) = viewModelScope.launch {
         recipeUseCase.deleteRecipe.invoke(recipeId)
         isRecipeSaved(recipeId)
     }
-
 
 }

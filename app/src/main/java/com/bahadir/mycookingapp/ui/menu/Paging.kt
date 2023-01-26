@@ -1,5 +1,6 @@
 package com.bahadir.mycookingapp.ui.menu
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.bahadir.mycookingapp.domain.mapper.randomFoodToUI
@@ -19,14 +20,12 @@ class Paging(
         return try {
             val currentPage = params.key ?: 1
             val response = remoteDataSource.getCategoryItems(size, categoryItem)
-
+            Log.i("TAG", "load: $categoryItem")
             LoadResult.Page(
                 data = response.recipes.randomFoodToUI(),
                 prevKey = if (currentPage == 1) null else -1,
                 nextKey = currentPage.plus(1)
             )
-
-
         } catch (e: Exception) {
             LoadResult.Error(e)
         }

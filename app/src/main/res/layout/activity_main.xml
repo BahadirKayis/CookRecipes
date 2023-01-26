@@ -22,7 +22,6 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-
         app:backgroundColor="@color/toolbar"
         app:duration="200"
         app:iconSize="25dp"

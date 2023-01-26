@@ -16,7 +16,6 @@ class IngredientFragment : Fragment(R.layout.fragment_ingredient) {
     private val binding by viewBinding(FragmentIngredientBinding::bind)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val ingredients = if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkNotNull(
                 arguments?.getParcelable(
@@ -33,7 +32,6 @@ class IngredientFragment : Fragment(R.layout.fragment_ingredient) {
         binding.ingredientRecycler.adapter = adapter
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance(param1: RecipeUI) =
@@ -42,8 +40,7 @@ class IngredientFragment : Fragment(R.layout.fragment_ingredient) {
                     putParcelable("ingredient", param1)
 
                 }
+
             }
     }
-
-
 }

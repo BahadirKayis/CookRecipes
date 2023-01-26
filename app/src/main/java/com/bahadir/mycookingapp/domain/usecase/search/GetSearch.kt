@@ -5,6 +5,6 @@ import com.bahadir.mycookingapp.domain.repository.FoodRepository
 import javax.inject.Inject
 
 class GetSearch @Inject constructor(private val foodRepository: FoodRepository) {
-     operator fun invoke(query: String, filter: Filter) =
+    operator fun invoke(query: String, filter: Filter) =
         foodRepository.getSearch(query, filter)
 }

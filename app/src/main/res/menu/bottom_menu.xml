@@ -9,6 +9,7 @@
         android:menuCategory="secondary"
         android:title="Search"
         tools:ignore="HardcodedText" />
+
     <item
         android:id="@+id/randomFoodFragment"
         android:icon="@drawable/ic_baseline_home_24"

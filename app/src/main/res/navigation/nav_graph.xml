@@ -15,15 +15,16 @@
         <action
             android:id="@+id/action_menuFragment_to_recipeFragment"
             app:destination="@id/recipeFragment"
-            app:popUpTo="@id/menuFragment"
-            app:popUpToInclusive="false"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
             app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:popExitAnim="@anim/slide_out"
+            app:popUpTo="@id/menuFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_menuFragment_to_filterFragment"
-            app:destination="@id/filterFragment" />
+            app:destination="@id/filterFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/randomFoodFragment"
@@ -37,7 +38,8 @@
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
             app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out" />
+            app:popExitAnim="@anim/slide_out"
+            />
         <action
             android:id="@+id/action_randomFoodFragment_to_recipeFragment"
             app:destination="@id/recipeFragment"
@@ -136,7 +138,8 @@
             app:popEnterAnim="@anim/slide_in"
             app:popExitAnim="@anim/slide_out"
             app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="true" />
+
 
     </fragment>
 

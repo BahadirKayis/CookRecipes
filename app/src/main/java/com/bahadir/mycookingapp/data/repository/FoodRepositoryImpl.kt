@@ -7,8 +7,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.bahadir.mycookingapp.common.Resource
-import com.bahadir.mycookingapp.common.imageDownloadSaveFile
-import com.bahadir.mycookingapp.common.pars
+import com.bahadir.mycookingapp.common.extensions.imageDownloadSaveFile
+import com.bahadir.mycookingapp.common.extensions.pars
 import com.bahadir.mycookingapp.data.model.remote.filter.Filter
 import com.bahadir.mycookingapp.data.model.remote.search.SearchResult
 import com.bahadir.mycookingapp.domain.mapper.randomFoodToUI
@@ -35,14 +35,10 @@ class FoodRepositoryImpl(
         emit(Resource.Loading)
         val response = try {
             remoteDataSource.getRandomFood(count)
-
-
         } catch (e: IOException) {
             emit(Resource.Error(e))
-
             null
         }
-
         response?.let { data ->
             emit(Resource.Success(data.recipes.randomFoodToUI()))
         }
@@ -56,14 +52,8 @@ class FoodRepositoryImpl(
             null
         }
         response?.let {
-            Log.e("getRecipe", it.analyzedInstructions.toString())
-
             emit(Resource.Success(it.recipeUI()))
-
-
         }
-
-
     }
 
     override fun getSimilar(id: Int, size: Int): Flow<Resource<List<SimilarRecipeUI>>> = flow {
@@ -73,39 +63,29 @@ class FoodRepositoryImpl(
             emit(Resource.Error(e))
             null
         }
-
         response?.let { emit(Resource.Success(it)) }
     }
 
     override suspend fun addRecipe(recipe: RecipeUI) {
         val imagePath = recipe.id.toString() + recipe.title + ".png"
-
         recipe.imageFilePath = app.imageDownloadSaveFile(imagePath, recipe.image)
-
-
         localDataSource.addRecipe(recipe)
-
     }
 
     override fun isRecipeSaved(recipeId: Int): Flow<Resource<Boolean>> = flow {
         emit(Resource.Loading)
-
         val response = try {
-
             localDataSource.isSaveRecipe(recipeId)
         } catch (e: Throwable) {
             emit(Resource.Error(e))
             null
         }
-
         response?.let {
             emit(Resource.Success(true))
         } ?: run { emit(Resource.Success(false)) }
-
     }
 
     override suspend fun deleteRecipe(recipeId: Int) {
-
         localDataSource.deleteRecipe(recipeId)
     }
 
@@ -118,7 +98,6 @@ class FoodRepositoryImpl(
             null
         }
         response?.let { emit(Resource.Success(it)) }
-
     }
 
     override suspend fun deleteFavoriteRecipe(recipeId: RecipeUI) =
@@ -127,7 +106,6 @@ class FoodRepositoryImpl(
     override fun getSearch(
         query: String, filterModel: Filter
     ): Flow<Resource<List<SearchResult>>> = flow {
-
         emit(Resource.Loading)
 
         val diet: String
@@ -149,9 +127,7 @@ class FoodRepositoryImpl(
             emit(Resource.Error(e))
             null
         }
-
         response?.let { emit(Resource.Success(it.results)) }
-
     }
 
     override fun getMenuCategory(
@@ -162,14 +138,12 @@ class FoodRepositoryImpl(
             filterModel?.let { it.diet.pars() + it.country.pars() + it.intolerances.pars() }
                 ?: run { "" }
         val categoryFilter = "$category,${filterType}"
-
-        Log.i("getMenuCategory", "Filter: $categoryFilter")
+        Log.i("getMenuCategory", "Filter: $categoryFilter" + "Category: $category")
 
         Pager(config = PagingConfig(size, maxSize = 100, enablePlaceholders = false),
             pagingSourceFactory = {
-
                 Paging(
-                    remoteDataSource = remoteDataSource, size, category
+                    remoteDataSource = remoteDataSource, size, categoryFilter
                 )
             }).flow.collect { emit(it) }
 

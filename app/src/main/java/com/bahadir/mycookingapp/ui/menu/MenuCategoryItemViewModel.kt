@@ -25,15 +25,10 @@ class MenuCategoryItemViewModel @Inject constructor(
     val getMenu = _getMenu.asStateFlow()
 
     init {
-        savedStateHandle.get<String>(STATE_KEY_CATEGORY_NAME)?.let {
-            getMenuCategoryItem()
-        }
+        getMenuCategoryItem()
     }
 
-    fun getMenuCategoryItem(
-        filter: Filter? = null,
-
-        ) = viewModelScope.launch {
+    fun getMenuCategoryItem(filter: Filter? = null) = viewModelScope.launch {
         savedStateHandle.get<String>(STATE_KEY_CATEGORY_NAME)?.let { key ->
             getMenuUseCase.invoke(20, key.lowercase(), filter).cachedIn(viewModelScope).collect {
                 _getMenu.emit(it)

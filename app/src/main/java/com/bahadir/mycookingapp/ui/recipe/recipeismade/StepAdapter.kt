@@ -9,7 +9,6 @@ import com.bahadir.mycookingapp.domain.model.StepUI
 
 class StepAdapter(private val step: List<StepUI>) :
     RecyclerView.Adapter<StepAdapter.ViewHolder>() {
-
     inner class ViewHolder(private val binding: ItemRecipeViewpagerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(step: StepUI) {

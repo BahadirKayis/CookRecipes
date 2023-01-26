@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bahadir.mycookingapp.R
-import com.bahadir.mycookingapp.common.gone
+import com.bahadir.mycookingapp.common.extensions.gone
 import com.bahadir.mycookingapp.common.viewBinding
 import com.bahadir.mycookingapp.data.model.local.CustomData
 import com.bahadir.mycookingapp.data.model.remote.filter.Filter
@@ -29,13 +29,10 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
     private lateinit var returnFilterModel: Filter
     private val args: FilterFragmentArgs by navArgs()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
         returnFilterModel = args.filterModel
         initUI()
-        adapterUnit()
         clickListener()
     }
 
@@ -56,68 +53,49 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
     }
 
     private fun initUI() {
-
         with(binding)
         {
-
             adapter = FilterTypeAdapter(returnFilterModel.diet).also {
-
                 dietRecyclerView.adapter = it
                 dietRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
                 it.listHigh = { highDiet ->
                     returnFilterModel.diet = highDiet
-
                 }
             }
-            adapter = FilterTypeAdapter(returnFilterModel.country).also {
 
+            adapter = FilterTypeAdapter(returnFilterModel.country).also {
                 countryRecyclerView.adapter = it
                 countryRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
                 it.listHigh = { highDiet ->
                     returnFilterModel.country = highDiet
-
                 }
             }
             adapter = FilterTypeAdapter(returnFilterModel.intolerances).also {
-
                 intoleranceRecyclerView.adapter = it
-                intoleranceRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+                intoleranceRecyclerView.layoutManager =
+                    GridLayoutManager(requireContext(), spanCount)
                 it.listHigh = { highDiet ->
                     returnFilterModel.intolerances = highDiet
-
                 }
             }
-
 
             returnFilterModel.mealTypes?.let {
                 adapter = FilterTypeAdapter(it)
                 mealTypeRecyclerView.adapter = adapter
                 mealTypeRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
-
                 adapter.listHigh = { highMealType ->
                     returnFilterModel.mealTypes = highMealType
-
                 }
             } ?: run {
                 mealTypeText.gone()
                 mealTypeRecyclerView.gone()
             }
-
-
         }
-
     }
-
-    private fun adapterUnit() {
-
-
-    }
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
         dialog.setOnShowListener {
-
             val bottomSheetDialog = it as BottomSheetDialog
             val parentLayout =
                 bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
@@ -129,7 +107,6 @@ class FilterFragment : BottomSheetDialogFragment(R.layout.fragment_filter) {
             }
         }
         return dialog
-
     }
 
     private fun setupFullHeight(bottomSheet: View) {

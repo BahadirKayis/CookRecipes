@@ -5,13 +5,13 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.ClickToAny
 import com.bahadir.mycookingapp.common.Resource
+import com.bahadir.mycookingapp.common.extensions.collectInStarted
 import com.bahadir.mycookingapp.common.viewBinding
 import com.bahadir.mycookingapp.databinding.FragmentFavoriteBinding
 import com.google.android.material.snackbar.Snackbar
@@ -22,7 +22,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), ClickToAny {
     private val binding by viewBinding(FragmentFavoriteBinding::bind)
     private val viewModel: FavoriteViewModel by viewModels()
     private val adapter: FavoriteAdapter by lazy { FavoriteAdapter(this) }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getFavoriteRecipes()
@@ -32,35 +31,28 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), ClickToAny {
 
     private fun collectData() {
         with(viewModel) {
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                getAllRecipe.collect { response ->
-                    when (response) {
-                        is Resource.Loading -> {
-
-                        }
-                        is Resource.Success -> {
-                            adapter.submitList(response.data)
-                        }
-                        is Resource.Error -> {
-
-                            Log.e(
-                                "throwable-recipe", response.throwable.toString()
-                            )
-                        }
+            getAllRecipe.collectInStarted(viewLifecycleOwner) { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        Log.i("TAG:", "Loading")
                     }
-
+                    is Resource.Success -> {
+                        adapter.submitList(response.data)
+                    }
+                    is Resource.Error -> {
+                        Log.e(
+                            "throwable-recipe", response.throwable.toString()
+                        )
+                    }
                 }
             }
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.tasksEvent.collect { event ->
-                    when (event) {
-                        is FavoriteViewModel.RecipeEvent.ShowUndoDeleteRecipeMessage -> {
-                            Snackbar.make(requireView(), "Recipe Deleted", 3000).setAction("UNDO") {
-                                viewModel.onUndoRecipe(event.recipe)
-                            }.show()
-                        }
+            tasksEvent.collectInStarted(viewLifecycleOwner) { event ->
+                when (event) {
+                    is FavoriteViewModel.RecipeEvent.ShowUndoDeleteRecipeMessage -> {
+                        Snackbar.make(requireView(), "Recipe Deleted", 3000).setAction("UNDO") {
+                            viewModel.onUndoRecipe(event.recipe)
+                        }.show()
                     }
-
                 }
             }
         }
@@ -78,13 +70,10 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), ClickToAny {
         itemTouchHelper.attachToRecyclerView(binding.recipeRecycler)
     }
 
-
     override fun onClickToAny(id: Int?, title: String?) {
         id?.let {
             findNavController().navigate(
-                FavoriteFragmentDirections.actionFavoriteFragmentToRecipeFragment(
-                    it
-                )
+                FavoriteFragmentDirections.actionFavoriteFragmentToRecipeFragment(it)
             )
         }
     }

@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bahadir.mycookingapp.R
-import com.bahadir.mycookingapp.common.*
+import com.bahadir.mycookingapp.common.ClickToAny
+import com.bahadir.mycookingapp.common.Resource
+import com.bahadir.mycookingapp.common.extensions.*
+import com.bahadir.mycookingapp.common.viewBinding
 import com.bahadir.mycookingapp.databinding.FragmentRecipeBinding
 import com.bahadir.mycookingapp.domain.model.RecipeUI
 import com.google.android.material.tabs.TabLayoutMediator
@@ -20,25 +22,21 @@ import kotlin.math.abs
 
 @AndroidEntryPoint
 class RecipeFragment : Fragment(R.layout.fragment_recipe),
-   ClickToAny{
+    ClickToAny {
     private val binding by viewBinding(FragmentRecipeBinding::bind)
     private val viewModel: RecipeViewModel by viewModels()
     private val args: RecipeFragmentArgs by navArgs()
     private var isTheRecipeSaved: Boolean = false
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         collectData()
-
     }
 
     private fun initUI(recipe: RecipeUI) {
         with(binding) {
             appbar.addOnOffsetChangedListener { _, verticalOffset ->
                 if (abs(verticalOffset) >= appbar.totalScrollRange) {
-                    //  Collapsed
+                    //Collapsed
                     collapsingToolbar.title = recipe.title
                     toolbar.visible()
                 } else {
@@ -46,10 +44,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
                     toolbar.gone()
                     collapsingToolbar.title = ""
                 }
-
             }
-
-
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
@@ -85,66 +80,54 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
 
     private fun collectData() {
         with(viewModel) {
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                recipe.collect { response ->
-                    when (response) {
-                        is Resource.Loading -> {
-                            binding.animLoading.visible()
-                        }
-                        is Resource.Success -> {
-                            binding.animLoading.gone()
-                            loadRecipe(response.data)
-                        }
-                        is Resource.Error -> {
-                            binding.animLoading.gone()
-                            Log.e(
-                                "throwable-recipe", response.throwable.toString()
-                            )
-                        }
+            recipe.collectInStarted(viewLifecycleOwner) { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        binding.animLoading.visible()
                     }
-                }
-            }
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                similarRecipe.collect { response ->
-                    when (response) {
-                        is Resource.Loading -> {}
-                        is Resource.Success -> {
-                            val adapter = SimilarRecipeAdapter(response.data, this@RecipeFragment)
-                            binding.similarRecipe.adapter = adapter
-                        }
-                        is Resource.Error -> Log.e(
-                            "throwable-similarRecipe", response.throwable.toString()
+                    is Resource.Success -> {
+                        binding.animLoading.gone()
+                        loadRecipe(response.data)
+                    }
+                    is Resource.Error -> {
+                        binding.animLoading.gone()
+                        Log.e(
+                            "throwable-recipe", response.throwable.toString()
                         )
                     }
                 }
             }
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.isSavedRecipe.collect { response ->
-                    when (response) {
 
-                        is Resource.Loading -> {
-
-                        }
-
-                        is Resource.Success -> {
-                            if (response.data) {
-                                isTheRecipeSaved = true
-                                binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_on)
-                            } else {
-                                isTheRecipeSaved = false
-                                binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_off)
-                            }
-                        }
-                        is Resource.Error -> {
-
-                        }
+            similarRecipe.collectInStarted(viewLifecycleOwner) { response ->
+                when (response) {
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        val adapter = SimilarRecipeAdapter(response.data, this@RecipeFragment)
+                        binding.similarRecipe.adapter = adapter
                     }
-
-
+                    is Resource.Error -> Log.e(
+                        "throwable-similarRecipe", response.throwable.toString()
+                    )
                 }
             }
 
-
+            isSavedRecipe.collectInStarted(viewLifecycleOwner) { response ->
+                when (response) {
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        if (response.data) {
+                            isTheRecipeSaved = true
+                            binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_on)
+                        } else {
+                            isTheRecipeSaved = false
+                            binding.toolbar.menu.getItem(0).setIcon(R.drawable.star_off)
+                        }
+                    }
+                    is Resource.Error -> {
+                        Log.e("throwable-isSavedRecipe", response.throwable.toString())
+                    }
+                }
+            }
         }
     }
 
@@ -155,7 +138,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
             initializeView(
                 recipe
             )
-
             with(binding) {
                 gluten.visibleOrGone(glutenFree)
                 vegan.visibleOrGone(vegetarian)
@@ -163,7 +145,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
                 cheap.visibleOrGone(recipe.cheap)
                 popularity.visibleOrGone(veryPopular)
                 healthy.visibleOrGone(veryHealthy)
-
             }
 
         }
@@ -171,13 +152,11 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
 
     private fun foodImage(url: String) {
         binding.foodImage.glideImage(url)
-
     }
 
     private fun initializeView(
-        recipe: RecipeUI,
-
-        ) {
+        recipe: RecipeUI
+    ) {
         val tabLayoutName = listOf("Recipe", "Ingredient")
         with(binding) {
             viewPager.adapter = ViewPagerAdapter(childFragmentManager, lifecycle, recipe)
@@ -189,22 +168,18 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe),
     }
 
     private fun shareOtherApp(foodName: String, url: String) {
-        Log.e("shareOtherApp", "$foodName $url")
+        Log.i("shareOtherApp", "$foodName $url")
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_TITLE, foodName)
         intent.putExtra(Intent.EXTRA_TEXT, url)
-
-
         startActivity(Intent.createChooser(intent, "Share"))
     }
 
-
-
     override fun onClickToAny(id: Int?, title: String?) {
-     id?.let {
-        findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentSelf(it))
-     }
+        id?.let {
+            findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentSelf(it))
+        }
     }
 
 }

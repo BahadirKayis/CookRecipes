@@ -23,8 +23,6 @@ class ViewPagerAdapter(
     override fun createFragment(position: Int): Fragment {
         when (position) {
             0 -> return RecipeMadeFragment.newInstance(recipe)
-
-
         }
         return IngredientFragment.newInstance(recipe)
     }

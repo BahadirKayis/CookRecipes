@@ -8,18 +8,13 @@ import com.bahadir.mycookingapp.domain.model.IngredientUI
 
 class IngredientAdapter(private val ingredient: List<IngredientUI>) :
     RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
-
     inner class ViewHolder(private val binding: ItemRecipeViewpagerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(item: IngredientUI) {
             with(binding) {
                 itemName.text = item.name
-
             }
         }
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

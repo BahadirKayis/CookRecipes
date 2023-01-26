@@ -7,10 +7,13 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.*
+import com.bahadir.mycookingapp.common.extensions.collectInStarted
+import com.bahadir.mycookingapp.common.extensions.gone
+import com.bahadir.mycookingapp.common.extensions.hideKeyboard
+import com.bahadir.mycookingapp.common.extensions.visible
 import com.bahadir.mycookingapp.data.model.local.CustomData
 import com.bahadir.mycookingapp.data.model.remote.filter.Filter
 import com.bahadir.mycookingapp.databinding.FragmentSearchBinding
@@ -20,18 +23,14 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search), ClickToAny {
-
     private val binding by viewBinding(FragmentSearchBinding::bind)
     private var filterModel: Filter? = null
-
     private val viewModel: SearchViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
         filterResult()
         collectData()
-
-
     }
 
     private fun filterResult() {
@@ -39,7 +38,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), ClickToAny {
             filterModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 bundle.getParcelable("filterList", Filter::class.java)
             } else {
-
                 @Suppress("DEPRECATION") bundle.getParcelable("filterList")
             }
             viewModel.getSearch(
@@ -67,11 +65,11 @@ class SearchFragment : Fragment(R.layout.fragment_search), ClickToAny {
             }
 
             searchImageView.setOnClickListener {
-
                 viewModel.getSearch(
                     query = searchEditText.text.toString(), filter = filterModelController()
                 )
             }
+
             cancelSearch.setOnClickListener {
                 searchEditText.clearFocus()
                 requireView().hideKeyboard()
@@ -91,6 +89,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), ClickToAny {
                     cancelSearch.gone()
                 }
             }
+
             searchEditText.setOnKeyListener { _, keyCode, _ ->
                 when (keyCode) {
                     KeyEvent.KEYCODE_ENTER -> {
@@ -102,10 +101,10 @@ class SearchFragment : Fragment(R.layout.fragment_search), ClickToAny {
                         cancelSearch.gone()
                         true
                     }
-
                     else -> false
                 }
             }
+
             KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
                 if (!isOpen) {
                     searchEditText.clearFocus()
@@ -113,55 +112,44 @@ class SearchFragment : Fragment(R.layout.fragment_search), ClickToAny {
                     cancelSearch.gone()
                 }
             }
-
         }
-
     }
 
     private fun collectData() {
         with(viewModel) {
             with(binding) {
-                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    getSearch.collect {
-                        when (it) {
-                            is Resource.Success -> {
-                                animLoading.gone()
-                                errorTextView.gone()
-                                searchRecyclerView.adapter =
-                                    SearchAdapter(it.data, this@SearchFragment)
-                            }
-                            is Resource.Error -> {
-                                animLoading.gone()
-                                searchRecyclerView.gone()
-                                errorTextView.visible()
-                                errorTextView.text = it.throwable.toString()
-                            }
-                            is Resource.Loading -> {
-                                animLoading.visible()
-                                errorTextView.gone()
-                            }
+                getSearch.collectInStarted(viewLifecycleOwner) {
+                    when (it) {
+                        is Resource.Loading -> {
+                            animLoading.visible()
+                            errorTextView.gone()
                         }
+                        is Resource.Success -> {
+                            animLoading.gone()
+                            errorTextView.gone()
+                            searchRecyclerView.adapter =
+                                SearchAdapter(it.data, this@SearchFragment)
+                        }
+                        is Resource.Error -> {
+                            animLoading.gone()
+                            searchRecyclerView.gone()
+                            errorTextView.visible()
+                            errorTextView.text = it.throwable.toString()
+                        }
+
                     }
                 }
-
-
             }
-
         }
-
     }
-
 
     override fun onClickToAny(id: Int?, title: String?) {
         id?.let {
             findNavController().navigate(
-                SearchFragmentDirections.actionSearchFragmentToRecipeFragment(
-                    id
-                )
+                SearchFragmentDirections.actionSearchFragmentToRecipeFragment(id)
             )
         }
     }
-
 
 }
 

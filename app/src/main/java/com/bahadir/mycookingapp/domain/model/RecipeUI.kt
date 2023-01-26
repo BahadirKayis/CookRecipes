@@ -19,7 +19,7 @@ data class RecipeUI(
 
     val glutenFree: Boolean,
 
-    val aggregateLikes: Int,
+    val aggregateLikes: Int? = null,
 
     val veryHealthy: Boolean,
 
@@ -39,7 +39,7 @@ data class RecipeUI(
 
     val sourceUrl: String,
 
-    val instructions: String?= null,
+    val instructions: String? = null,
 
     var imageFilePath: String?,
 ) : Parcelable

@@ -5,9 +5,10 @@ import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.bahadir.mycookingapp.R
-import com.bahadir.mycookingapp.common.gone
+import com.bahadir.mycookingapp.common.extensions.gone
+import com.bahadir.mycookingapp.common.extensions.visible
 import com.bahadir.mycookingapp.common.viewBinding
-import com.bahadir.mycookingapp.common.visible
+
 
 import com.bahadir.mycookingapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint

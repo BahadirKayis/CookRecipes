@@ -19,8 +19,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         binding.animationLotti.playAnimation()
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -29,18 +27,9 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                 requireContext(),
                 R.anim.zoom_in
             )
-            binding.animationLotti.startAnimation(
-                animation
-            )
-
+            binding.animationLotti.startAnimation(animation)
             delay(300)
             findNavController().navigate(R.id.action_splashFragment_to_randomFoodFragment)
-
-
         }
-
-
     }
-
-
 }

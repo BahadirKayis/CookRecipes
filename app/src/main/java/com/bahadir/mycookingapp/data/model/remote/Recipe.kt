@@ -10,7 +10,7 @@ import kotlinx.parcelize.RawValue
 
 data class Recipe(
     @SerializedName("aggregateLikes")
-    val aggregateLikes: Int,
+    val aggregateLikes: Int? = null,
     @SerializedName("analyzedInstructions")
     val analyzedInstructions: List<AnalyzedInstruction> = emptyList(),
     @SerializedName("cheap")

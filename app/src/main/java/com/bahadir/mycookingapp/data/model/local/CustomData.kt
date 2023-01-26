@@ -16,8 +16,6 @@ object CustomData {
             FilterTypes(4, "Pescetarian"),
             FilterTypes(5, "Whole30")
         )
-
-
         val country = listOf(
             FilterTypes(0, "African"),
             FilterTypes(1, "American"),
@@ -28,8 +26,7 @@ object CustomData {
             FilterTypes(6, "German"),
             FilterTypes(7, "Korean"),
             FilterTypes(8, "Italian"),
-
-            )
+        )
         val intolerances = listOf(
             FilterTypes(0, "Dairy"),
             FilterTypes(1, "Egg"),
@@ -48,8 +45,7 @@ object CustomData {
             FilterTypes(5, "Drink"),
             FilterTypes(6, "Sweets"),
             FilterTypes(7, "Main Course"),
-
-            )
+        )
         return if (mealType) {
             Filter(diet, intolerances, country, mealTypes)
         } else {

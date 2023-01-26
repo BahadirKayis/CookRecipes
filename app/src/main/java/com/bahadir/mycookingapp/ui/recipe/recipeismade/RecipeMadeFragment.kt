@@ -7,9 +7,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.bahadir.mycookingapp.R
-import com.bahadir.mycookingapp.common.gone
+import com.bahadir.mycookingapp.common.extensions.gone
+import com.bahadir.mycookingapp.common.extensions.visible
 import com.bahadir.mycookingapp.common.viewBinding
-import com.bahadir.mycookingapp.common.visible
 import com.bahadir.mycookingapp.databinding.FragmentRecipeMadeBinding
 import com.bahadir.mycookingapp.domain.model.RecipeUI
 
@@ -31,7 +31,6 @@ class RecipeMadeFragment : Fragment(R.layout.fragment_recipe_made) {
         }
         step.step?.let {
             if (step.step.isNotEmpty()) {
-
                 val adapter = StepAdapter(step.step)
                 binding.stepRecycler.adapter = adapter
             } else {

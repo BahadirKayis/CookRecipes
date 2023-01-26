@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.common.ClickToAny
 
-import com.bahadir.mycookingapp.common.glideImage
-import com.bahadir.mycookingapp.common.titleCount
+import com.bahadir.mycookingapp.common.extensions.glideImage
+import com.bahadir.mycookingapp.common.extensions.titleCount
 import com.bahadir.mycookingapp.databinding.ItemRandomRecipeBinding
 import com.bahadir.mycookingapp.domain.model.SimilarRecipeUI
 
@@ -15,8 +15,7 @@ import com.bahadir.mycookingapp.domain.model.SimilarRecipeUI
 class SimilarRecipeAdapter(
     private val food: List<SimilarRecipeUI>,
     private val recipeInterface: ClickToAny
-) :
-    RecyclerView.Adapter<SimilarRecipeAdapter.RandomFoodViewHolder>() {
+) : RecyclerView.Adapter<SimilarRecipeAdapter.RandomFoodViewHolder>() {
     inner class RandomFoodViewHolder(private val binding: ItemRandomRecipeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SimilarRecipeUI) {
@@ -24,11 +23,10 @@ class SimilarRecipeAdapter(
                 foodImage.glideImage(item.image!!)
                 title.text = item.title.titleCount(20)
                 itemView.setOnClickListener {
-                    recipeInterface.onClickToAny(id=item.id)
+                    recipeInterface.onClickToAny(id = item.id)
                 }
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RandomFoodViewHolder {
@@ -44,6 +42,5 @@ class SimilarRecipeAdapter(
     override fun getItemCount(): Int {
         return food.size
     }
-
 
 }

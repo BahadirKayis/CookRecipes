@@ -1,4 +1,4 @@
-package com.bahadir.mycookingapp.common
+package com.bahadir.mycookingapp.common.extensions
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -9,7 +9,9 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.annotation.ColorRes
 import androidx.core.content.FileProvider
+import androidx.core.content.res.ResourcesCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.ImageLoader
 import coil.request.ImageRequest
@@ -38,13 +40,10 @@ fun List<FilterTypes>.pars(): String {
     this.forEach {
         if (it.checked) filterType += it.name.lowercase() + ","
     }
-
     return filterType
 }
 
-
 fun String.idToImageUrl(imgType: String): String {
-
     return "https://spoonacular.com/recipeImages/$this-556x370.$imgType"
 }
 
@@ -62,7 +61,10 @@ fun View.visibleOrGone(boolean: Boolean) {
     } else {
         this.gone()
     }
+}
 
+fun Context.color(@ColorRes color: Int): Int {
+    return ResourcesCompat.getColor(this.resources, color, null)
 }
 
 fun List<AnalyzedInstruction>.emptyControl(): List<StepUI> {
@@ -71,7 +73,6 @@ fun List<AnalyzedInstruction>.emptyControl(): List<StepUI> {
     } else {
         emptyList()
     }
-
 }
 
 fun View.hideKeyboard() {
@@ -89,14 +90,9 @@ fun Context.circularProgressDrawable(): Drawable {
 }
 
 fun ImageView.glideImage(url: String?) {
-
-    Glide.with(this.context)
-        .load(url)
-        .override(500, 500) //1
+    Glide.with(this.context).load(url).override(500, 500) //1
         .diskCacheStrategy(DiskCacheStrategy.DATA) //6
-        .placeholder(this.context.circularProgressDrawable())
-        .error(R.drawable.serving)
-        .into(this)
+        .placeholder(this.context.circularProgressDrawable()).error(R.drawable.serving).into(this)
 }
 
 
@@ -104,21 +100,16 @@ suspend fun Context.imageDownloadSaveFile(photoName: String, url: String): Strin
     try {
         val image = File(filesDir, photoName)
         val imageUri = FileProvider.getUriForFile(
-            this,
-            "com.bahadir.mycookingapp.fileProvider",
-            image
+            this, "com.bahadir.mycookingapp.fileProvider", image
         ).toString()
 
         val loading = ImageLoader(this)
-        val request = ImageRequest.Builder(this)
-            .data(url)
-            .build()
+        val request = ImageRequest.Builder(this).data(url).build()
 
         val result = (loading.execute(request) as SuccessResult).drawable
         val bitmap = (result as BitmapDrawable).bitmap
 
-        val outputStream =
-            this.contentResolver.openOutputStream(Uri.parse(imageUri))
+        val outputStream = this.contentResolver.openOutputStream(Uri.parse(imageUri))
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
         withContext(Dispatchers.IO) {
             outputStream!!.close()

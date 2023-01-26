@@ -9,31 +9,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bahadir.mycookingapp.R
 import com.bahadir.mycookingapp.common.ClickToAny
-import com.bahadir.mycookingapp.common.glideImage
+import com.bahadir.mycookingapp.common.extensions.glideImage
 import com.bahadir.mycookingapp.databinding.ItemMenuCategoryListBinding
 import com.bahadir.mycookingapp.domain.model.RandomFoodRecipeUI
 
 
 class MenuCategoryItemAdapter(
     private val menuCategoryInterface: ClickToAny
-) :
-    PagingDataAdapter<RandomFoodRecipeUI, MenuCategoryItemAdapter.ViewHolder>(diffCallBack) {
-
+) : PagingDataAdapter<RandomFoodRecipeUI, MenuCategoryItemAdapter.ViewHolder>(diffCallBack) {
     inner class ViewHolder(private val binding: ItemMenuCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: RandomFoodRecipeUI) {
             try {
                 with(item) {
                     with(binding) {
-                        itemView.animation =
-                            AnimationUtils.loadAnimation(
-                                itemView.context,
-                                R.anim.menu_category_item_scale
-                            )
-
-                        foodImage.glideImage(item.image!!)
+                        itemView.animation = AnimationUtils.loadAnimation(
+                            itemView.context, R.anim.menu_category_item_scale
+                        )
+                        item.image?.let { foodImage.glideImage(it) }
                         title.text = item.title
-
                         when (healthScore) {
                             in 1..24 -> ratingBar.rating = 1f
                             in 25..39 -> ratingBar.rating = 1.5f
@@ -45,13 +39,12 @@ class MenuCategoryItemAdapter(
                             in 85..99 -> ratingBar.rating = 4.5f
                             else -> ratingBar.rating = 5f
                         }
-
                         itemView.setOnClickListener {
                             menuCategoryInterface.onClickToAny(id = id)
                         }
+                        Log.i("photoUrl", item.image.toString())
                     }
                 }
-
 
             } catch (e: Exception) {
                 Log.e("bind-Ex", e.toString())
@@ -67,9 +60,7 @@ class MenuCategoryItemAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
-
     }
-
 
     companion object {
         val diffCallBack = object : DiffUtil.ItemCallback<RandomFoodRecipeUI>() {
